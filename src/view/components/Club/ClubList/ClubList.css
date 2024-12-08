@@ -1,0 +1,109 @@
+/* クラブリスト全体 */
+.club-list {
+  padding: 20px;
+  background-color: #f8f9fa; /* 背景色 */
+  border-radius: 8px; /* コーナーを丸める */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影 */
+}
+
+/* タイトル */
+.club-list__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* クラブリストのアイテム */
+.club-list__items {
+  list-style: none; /* リストのデフォルトスタイルを無効化 */
+  padding: 0;
+  margin: 0;
+}
+
+/* 各アイテム */
+.club-list__item {
+  background-color: #ffffff;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 軽い影 */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* クラブの名前 */
+.club-list__name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* タグのコンテナ */
+.club-list__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* タグ間の余白 */
+  width: 90%;
+  height: 50%;
+  margin: 15px 10px;
+  margin-bottom: 30px;
+}
+
+/* お気に入り登録ボタン */
+.club-list__favorite-button {
+  background-color: #3498db;
+  align-self: flex-end;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.club-list__favorite-button.active {
+  background-color:red;
+  align-self: flex-end;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+/* ボタンのホバー効果 */
+.club-list__favorite-button:hover {
+  background-color: #2980b9;
+}
+
+/* ボタンのアクティブ効果 */
+.club-list__favorite-button:active {
+  background-color: #1f6391;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .club-list {
+    padding: 15px;
+  }
+
+  .club-list__item {
+    padding: 10px;
+  }
+
+  .club-list__name {
+    font-size: 1rem;
+  }
+
+  .club-list__favorite-button {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}

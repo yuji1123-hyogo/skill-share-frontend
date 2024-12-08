@@ -1,0 +1,114 @@
+
+
+MIMEタイプ：JPEGとかPNGとかのファイルの種類のこと
+
+フロントエンドでのファイルの扱い
+input要素の値の一種として扱われる(e.target.file)
+↑で得られるのは各ファイルを要素として持つ配列
+配列の一つ一つの要素はファイルオブジェクトとなるfile=e,target.file[0]
+ファイルオブジェクトにはMIMEタイプなどのメタデータのほかに実際の中身そのものであるバイナリデータを含む
+なおバイナリデータはconsole.log(file)での確認は不可能
+リクエストのbodyとなるform-dataにfileをappendして送信するとfileのbinaryモ一緒に送られる
+
+
+
+form-dataとcontenttype
+form-data:
+送信するデータをパッケージ化するための仕組み。
+form-dataという段ボール箱を作ってその中に送信したいメインコンテンツ
+やその付随品を梱包していく。つまり送信するデータのオブジェクトを作成する。
+
+contenttype:サーバーに送信するデータ形式
+multipart/form-data:テキストとファイルを混合できる。複数のデータをまとめて送れる。それぞれのデータはboundaryで区切られる
+ファイルの内容はバイナリ形式で格納。サーバー側での処理にはmulterというライブラリが必要（ファイルを扱いたいときはこっち）
+
+application/json:テキストデータ。JSON。バイナリは扱えない(画像の処理に向かない)
+
+AXIOSは明示的に設定しなくても自動で使い分けてくれる。
+
+
+
+Multer
+contenttypeがmultipart-formdataであるリクエストに対して処理を行う。
+ファイル処理を行うNodejsのミドルウェア。保存先や許容するMIMEタイプ、保存する際のファイル名などを扱える。
+ファイルのメタデータ(保存先のパスなど)はreq.fileオブジェクトに格納される。
+
+upload.single('myFile'):フォームフィールド名がmyFileである1つのファイルを受け取ります。
+
+
+cloudinaryへのアップロード
+multer-storage-cloudinary:multerでのファイル処理からcloudinaryへのアップロードを
+シームレスに行うためのパッケージ。通常のcloudinaryでのアップロードはパスを指定して行うものであるため
+一度バックエンドでローカルに保存してパスを得る必要があったが、multer-storage-cloudinaryは
+その工程を省略できる
+
+
+プロフィール画像更新にかかわる作業まとめ
+
+フロントエンド
+画像をmultipart/form-data形式でバックエンドに送信
+
+バックエンド
+multerを利用してform-dataからファイルを抽出
+upload.single('profileImage')によってformdataオブジェクトからprofileImageプロパティのファイルの処理が開始される
+multerをインスタンス化する際にstorageにcloudinarystorageを渡すことによってmulterが処理するファイルはクラウディナリーに直接渡される。
+multer-storage-cloudinaryを利用して、画像を直接Cloudinaryにアップロード。
+クラウディナリーで保存されたURLなどが返ってくる。
+req.fileにクラウディナリーAPIから帰ってきた情報が格納される。
+(strage設定の段階でcloudinaryとmulterの接続が終了しているため特に意識せず扱える)
+
+
+
+
+
+multer-storage-cloudinaryを使用したファイルアップロードの処理の流れを、具体的なステップに分けて説明します。この流れは、サーバーサイドでMulterとCloudinaryを組み合わせて動作させる際の典型的なプロセスです。
+
+処理の流れ：サーバーサイド
+1. リクエスト受信
+クライアントがform-data形式でファイルをアップロード。
+リクエストヘッダーのContent-Typeはmultipart/form-data。
+2. Multerがリクエストを解析
+Multerがmultipart/form-dataを解析し、ファイル情報を取得。
+multer-storage-cloudinaryが指定されている場合、MulterはファイルをCloudinaryに直接送信する設定を適用。
+3. MulterがCloudinaryStorageを呼び出し
+Multerは、設定されたCloudinaryStorageのインスタンスに対してファイルの保存を要求。
+CloudinaryStorageはCloudinary APIを介してファイルをアップロード。
+4. Cloudinaryがファイルを受信して保存
+Cloudinaryのサーバーがファイルを受け取り、保存。
+保存されたファイルに対して、以下の情報を生成：
+URL（secure_url）：アップロードされたファイルへのアクセスURL。
+public_id：Cloudinary内でのファイル識別子。
+その他のメタデータ（サイズ、フォーマットなど）。
+5. Cloudinaryがアップロード結果を返す
+Cloudinaryはアップロード結果をCloudinaryStorageに返却。
+6. Multerがファイル情報をExpressに渡す
+MulterはCloudinaryから返された結果を解析し、req.fileまたはreq.filesに格納。
+ファイル情報には、以下が含まれる：
+ファイルのURL
+ファイル名
+その他のメタデータ
+7. Expressがレスポンスを返す
+サーバーはクライアントに、アップロード成功のレスポンス（例：画像URLやメッセージ）を返却。
+全体の流れを図解風に表現
+クライアント
+クライアントがファイルを送信（form-data形式）。
+→ HTTPリクエスト
+例:
+
+http
+コードをコピーする
+POST /upload HTTP/1.1
+Content-Type: multipart/form-data
+サーバー
+サーバー側で以下の処理を行う：
+
+Multerがリクエストを解析。
+MulterがCloudinaryにファイルを直接アップロード。
+Cloudinaryからのレスポンスを受け取る。
+アップロード結果をクライアントに返却。
+Cloudinary
+ファイルを保存し、以下を生成：
+
+ファイルのアクセスURL
+ファイルメタデータ
+保存先フォルダとpublic_id

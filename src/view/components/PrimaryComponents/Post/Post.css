@@ -1,0 +1,48 @@
+.Post {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .Post__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .post-userInfo-username {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+  .post-user-info-clubname{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+  .post-user-info {
+    display: flex;
+    align-items: center;
+    gap:10px;
+  }
+
+
+  .post-userInfo-tags{
+    display: flex;
+    gap: 5px;
+  }
+
+  
+  .post-content{
+    padding: 10px 15px;
+    margin: 10px 0 0;
+    font-size: 18px;
+    line-height: 1.6;
+  }

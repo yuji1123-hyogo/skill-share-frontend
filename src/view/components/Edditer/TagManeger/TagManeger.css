@@ -1,0 +1,65 @@
+.tag-manager{
+    display: flex;
+    flex-direction: column;
+}
+
+.tag-manager h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.interesting-tags,.suggested-tags,.add-tags,.selected-tags{
+    margin: 10px;
+}
+
+.interesting-tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+  
+.add-tag-input{
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-tag-wrapper {
+    display: flex;
+    gap: 10px;
+}
+  
+.add-tag-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.add-tag-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 1px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border:none
+}
+  
+.add-tag-button:hover {
+    background-color: #e0e0e0;
+}
+
+.suggested-tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+
+  

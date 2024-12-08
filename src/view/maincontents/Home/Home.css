@@ -1,0 +1,52 @@
+.Home{
+    display: flex;
+}
+.timeline{
+    flex: 8;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    max-height: 400px;
+    overflow-y: scroll;
+    margin: 0 auto;
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 70px;
+}
+.timeline::-webkit-scrollbar {
+    width: 8px;
+}
+
+.timeline::-webkit-scrollbar-thumb {
+    background-color: #3498db;
+    border-radius: 10px;
+}
+
+.Rightbar{
+    width:20%;
+    padding-top: 15px;
+}
+
+.post-send-form-inHome{
+    position: fixed;
+    bottom: 0;
+    width: 80%;
+    z-index: 900;
+    height: 85px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1024px) {
+    .Rightbar{
+        display: none;
+    }
+    .timeline{
+        padding-left: 15px;
+    }
+    .post-send-form-inHome{
+        left: 0;
+        width: 100%;
+    }
+}
+  

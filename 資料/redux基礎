@@ -1,0 +1,169 @@
+reduxの基礎
+そもそもreduxとは？アプリ全体で共有したい情報、状態を一元管理するための仕組み
+useContextとuseReducerのあいの子
+action:状態を更新する処理の概要。どのリデューサーにどんな内容を渡すか定義したもの(例:チャーハン職人に玉ねぎとか渡してチャーハンを作ってという指示書)
+dispatch:actionをもとに特定のreducerを呼び出す行為(例:指示書を職人に渡す行為)
+reducer:状態を更新する処理の詳細(例:玉ねぎを炒めて。。。。といった具体的な調理レシピ：チャーハン職人)
+store:状態の保管場所（例:出来上がった料理たち）
+view:storeから必要な情報を利用するところ:コンポーネント(例:チャーハンを注文する客)
+
+
+rootreducer:複数のリデューサーを一つにまとめたもの
+combinereducer:rootreducerを作成するための物
+スライス:reducerとそのreducerによって管理される状態、actionのセット
+-rootreducerにおいて各リデューサー達はスライスというものとして管理される
+
+rootreducerの作成:
+各スライスに対応するリデューサーを割り当てる
+const rootReducer = combineReducers({
+  user: userReducer,
+  posts: postsReducer,
+});
+
+store = createStore(rootReducer, applyMiddleware(thunk));
+でストアを作成。
+storeのイメージ。storeが管理するstateはreducer次第で決定
+{
+  user(userスライス:user更新用のreducerと結びついている): {
+    userInfo: { /* ユーザー情報(reducerの処理対象) */ }
+  },
+  posts(postスライス:post更新用のreducerと結びついている): {
+    posts: [ /* 投稿の配列(reducerの処理対象) */ ]
+  }
+}
+
+
+
+dispatchとは
+・storeにアクションの発生を通知するための物
+・storeにアクションが通知されるとリデューサーが呼び出される
+どうやって使うの？
+・コンポーネント内:usedispatch
+・コンポーネント外:storeインスタンスのdispatchメソッド
+
+
+applyMiddlewareとは
+store作成時に第２引数に指定することでアクションがリデューサーにディスパッチ
+される前に処理を挟むことができる。
+(例)関数をアクションとして返せるようにする処理を挟む(reduxthunk)
+
+関数をアクションとして返せるようにすることのメリット
+条件分岐、trycatchができる
+async/awaitが使える
+
+thunkとは
+関数をアクションとして使用できるようにするためのミドルウェア
+
+
+
+非同期アクションとは
+関数型のアクション。type.payloadを持ったオブジェクトを生成するだけの通常のアクションとは
+異なり、dispatchまでを定義する。
+
+ミドルウェア内でのdispatch
+・storeインスタンスから呼び出す必要なし
+
+
+reduxコンテキスト作成の流れ
+actionを定める(type,payload)
+actionに合わせたreducerを作成する
+combinereducerでreducerを一つに束ねてスライスにreducerを対応させる
+createStoreでstoreの作成とミドルウェアの設置
+
+
+redux-toolkitでは
+configurestore:redux-thunkがデフォルトで設定
+スライスで一度にアクションとreducerを管理できる
+
+
+redux-toolkitにおける非同期処理
+
+createAsyncThunkとは
+非同期アクション(async,awaitを使ったデータフェッチを行うアクション)
+成功時はreturn response.dataで結果を返し、失敗時はrejectWithValueでエラー内容を返す。
+**redux-toolkitでは同期的なアクションは記述する必要ないのだが非同期アクションのみは記述しなければいけない
+
+extrareducersとは
+スライス外で定義されたアクションにも対応できる
+
+builderとは
+extrareducersの中で使用するクラス
+非同期アクションの成功、失敗(データがフェッチできたかできてないかなど)
+に応じた処理が可能となる
+
+
+具体的なredux-toolkitによる非同期アクションを用いた処理の実装例
+
+①アクションの作成
+//非同期アクションはcreateasyncThunkで作成
+; export const fetchUserProfile = createAsyncThunk(
+    //アクション名は直前にスライス名が必要
+;   'user/fetchUserProfile',
+     //第一引数にはペイロード、第二引数にはthunkapiと決まっていることに注意する
+;   async (userId, thunkAPI) => {
+;     try {
+;       const response = await axios.get(`${API_URL}/${userId}`);
+;       return response.data; // 成功時のデータ
+;     } catch (error) {
+;       return thunkAPI.rejectWithValue(error.response.data); // エラー時のデータ
+;     }
+;   }
+; );
+
+②slice,extrareducerの作成
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    userId: null,
+    username: '',
+    email: '',
+    profilePicture: '',
+    bio: '',
+    isAuthenticated: false,
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    logout: (state) => {
+      return {
+        ...state,
+        userId: null,
+        username: '',
+        email: '',
+        profilePicture: '',
+        bio: '',
+        isAuthenticated: false,
+      };
+    },
+  },
+  //アクションの成否に応じて処理を変えるためにbuilderを利用
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchLoggedInUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchLoggedInUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userId = action.payload.userId;
+        state.username = action.payload.username;
+        state.email = action.payload.email;
+        state.profilePicture = action.payload.profilePicture;
+        state.bio = action.payload.bio;
+        state.isAuthenticated = true; // ログイン状態を設定
+      })
+      .addCase(fetchLoggedInUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'ユーザー情報の取得に失敗しました';
+      });
+  },
+});
+
+③コンポーネントでの使用
+  const dispatch = useDispatch();
+  const { isAuthenticated, isLoading } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    // アプリがマウントされたときにJWTトークンでログイン中のユーザー情報をフェッチ
+    dispatch(fetchLoggedInUser());
+  }, [dispatch]);

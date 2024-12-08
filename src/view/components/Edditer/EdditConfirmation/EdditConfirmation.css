@@ -1,0 +1,115 @@
+/* 全体のスタイル */
+.profile-change-confirmation {
+    font-family: "Arial", sans-serif;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* 各項目のスタイル */
+  .change-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .change-item {
+    background: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .change-item.changed {
+    background: #e3f2fd;
+  }
+  
+  .item-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .item-old,
+  .item-new {
+    font-size: 14px;
+    color: #555;
+    margin: 4px 0;
+  }
+  
+  .item-old span,
+  .item-new span {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* ボタンのスタイル */
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .save-button,
+  .cancel-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .save-button {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .save-button:hover {
+    background: #45a049;
+    transform: scale(1.05);
+  }
+  
+  .cancel-button {
+    background: #e74c3c;
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+  }
+
+  .eddit-confirmation-tag{
+    margin-right: 5px;
+  }
+  .eddit-confirmation-tag.changed{
+    color:red
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 600px) {
+    .change-items {
+      gap: 10px;
+    }
+  
+    .save-button,
+    .cancel-button {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  

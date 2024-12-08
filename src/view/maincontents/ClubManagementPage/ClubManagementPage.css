@@ -1,0 +1,22 @@
+.club-management-page {
+    padding: 20px;
+  }
+  
+.club-management-page-navigation{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  
+  .club-main {
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  

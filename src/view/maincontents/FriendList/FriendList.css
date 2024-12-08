@@ -1,0 +1,14 @@
+.friendlist{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.friendlist-users{
+    padding-top: 10px;
+    width:95%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

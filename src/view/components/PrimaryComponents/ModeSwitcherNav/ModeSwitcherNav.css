@@ -1,0 +1,26 @@
+.mode-switcher {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+
+.modeButton{
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+  
+.modeButton.active {
+    background-color: #007BFF;
+    color: #fff;
+    border-color: #007BFF;
+ }
+  
+.modeButton:hover {
+    background-color: #007BFF;
+    color: #fff;
+}

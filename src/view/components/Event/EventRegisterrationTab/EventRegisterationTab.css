@@ -1,0 +1,48 @@
+.event-registration-tab {
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .event-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .event-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+  }
+  
+  .event-form input,
+  .event-form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .event-form textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .event-form button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .event-form button:hover {
+    background-color: #357abf;
+  }
+  
+  .required {
+    color: red;
+    margin-left: 5px;
+  }
+  

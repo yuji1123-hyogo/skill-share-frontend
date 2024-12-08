@@ -1,0 +1,34 @@
+.user-list-tab {
+    padding: 20px;
+  }
+  
+  .user-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .user-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  
+  .user-info h3 {
+    margin: 0;
+  }
+  
+  .user-info p {
+    margin: 5px 0 0 0;
+    color: #777;
+  }
+  

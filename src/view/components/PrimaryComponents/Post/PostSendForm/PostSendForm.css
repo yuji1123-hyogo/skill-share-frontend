@@ -1,0 +1,49 @@
+
+  .post-send-form-container{
+    height: 100%;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #ddd;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .post-send-form-input{
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    resize: vertical;
+    
+  }
+
+  .post-send-form-input:focus {
+    outline: none;
+  }
+  
+  .share__button {
+    background-color: #1DA1F2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .share__button:hover {
+    background-color: #0d8cd0;
+  }
+  
+  /* レスポンシブ対応 */
+  @media (max-width: 1024px) {
+    .share {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  

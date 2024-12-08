@@ -1,0 +1,47 @@
+.Home{
+  display: flex;
+}
+.timeline{
+  flex: 8;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: scroll;
+  margin: 0 auto;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 70px;
+}
+.timeline::-webkit-scrollbar {
+  width: 8px;
+}
+
+.timeline::-webkit-scrollbar-thumb {
+  background-color: #3498db;
+  border-radius: 10px;
+}
+
+
+.club-post-sendform{
+  position: fixed;
+  bottom: 0;
+  width: 80%;
+  padding-right: 15px;
+  z-index: 900;
+  height: 85px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 1024px) {
+
+  .timeline{
+      padding-left: 15px;
+  }
+  .club-post-sendform{
+      left: 0;
+      width: 100%;
+  }
+}
+  

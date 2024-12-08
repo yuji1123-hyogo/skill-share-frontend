@@ -1,0 +1,170 @@
+基礎概念
+1. 単一責任の原則 (Single Responsibility Principle)
+1コンポーネント = 1つの責務に限定する。
+各コンポーネントが何をするかが明確になる。
+2. 関心の分離 (Separation of Concerns)
+UIのロジックとデータ管理のロジックを分ける。
+状態管理やAPI通信は親コンポーネントに集約し、子コンポーネントは表示に専念する。
+3. データの流れ
+トップダウン: 親コンポーネントが状態を管理し、子にpropsとしてデータを渡す。
+イベント通知: 子コンポーネントがイベントを親に通知（例: ボタンのクリックなど）。
+コンポーネント分離のプロセス
+具体例として、タグ管理機能を設計します。
+
+要件:
+
+タグの表示
+タグの選択・解除
+新しいタグの追加
+ステップ1: 必要な責務を洗い出す
+タグ表示: 一つ一つのタグをどのように見せるか。
+タグ管理: タグの選択状態や新しいタグを追加するロジック。
+ユーザー入力: 新しいタグを入力するフォーム。
+ステップ2: コンポーネントを分離
+コンポーネント一覧
+Tag: 単一のタグ表示と選択状態を管理。
+TagList: 複数のタグを表示し、選択状態を親から受け取る。
+TagAdder: 新しいタグを追加するUI。
+TagManager: タグの選択状態やロジックを管理する親コンポーネント。
+ステップ3: 実装
+1. Tag
+javascript
+コードをコピーする
+import React from 'react';
+import './Tag.css';
+
+const Tag = ({ label, isSelected, onClick }) => {
+  return (
+    <button
+      className={`tag ${isSelected ? 'selected' : ''}`}
+      onClick={() => onClick(label)}
+    >
+      {label}
+    </button>
+  );
+};
+
+export default Tag;
+label: タグ名。
+isSelected: 選択状態（スタイルを切り替え）。
+onClick: クリックイベントを親に通知。
+2. TagList
+javascript
+コードをコピーする
+import React from 'react';
+import Tag from './Tag';
+
+const TagList = ({ tags, selectedTags, onToggleTag }) => {
+  return (
+    <div className="tag-list">
+      {tags.map((tag) => (
+        <Tag
+          key={tag}
+          label={tag}
+          isSelected={selectedTags.includes(tag)}
+          onClick={onToggleTag}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default TagList;
+tags: 表示するタグ一覧。
+selectedTags: 選択状態を管理するリスト。
+onToggleTag: 親から渡されたタグ選択/解除ロジック。
+3. TagAdder
+javascript
+コードをコピーする
+import React, { useState } from 'react';
+
+const TagAdder = ({ onAddTag }) => {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleAddTag = () => {
+    if (inputValue.trim() !== '') {
+      onAddTag(inputValue.trim());
+      setInputValue('');
+    }
+  };
+
+  return (
+    <div className="tag-adder">
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder="新しいタグを入力"
+      />
+      <button onClick={handleAddTag}>追加</button>
+    </div>
+  );
+};
+
+export default TagAdder;
+onAddTag: 新しいタグを親に通知。
+ローカルステートで入力値を保持し、ボタンで通知。
+4. TagManager
+javascript
+コードをコピーする
+import React, { useState } from 'react';
+import TagList from './TagList';
+import TagAdder from './TagAdder';
+
+const TagManager = () => {
+  const [tags, setTags] = useState(['Sports', 'Music', 'Tech']);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const handleToggleTag = (tag) => {
+    setSelectedTags((prevSelected) =>
+      prevSelected.includes(tag)
+        ? prevSelected.filter((t) => t !== tag)
+        : [...prevSelected, tag]
+    );
+  };
+
+  const handleAddTag = (newTag) => {
+    if (!tags.includes(newTag)) {
+      setTags((prevTags) => [...prevTags, newTag]);
+    }
+  };
+
+  return (
+    <div className="tag-manager">
+      <h2>タグ管理</h2>
+      <TagAdder onAddTag={handleAddTag} />
+      <TagList
+        tags={tags}
+        selectedTags={selectedTags}
+        onToggleTag={handleToggleTag}
+      />
+    </div>
+  );
+};
+
+export default TagManager;
+状態管理
+tags: タグ一覧。
+selectedTags: 選択されたタグ。
+ロジック
+タグの選択/解除: handleToggleTag。
+新しいタグの追加: handleAddTag。
+ステップ4: データフローを確認
+親 (TagManager) が状態 (tags, selectedTags) を管理。
+子コンポーネントは親から状態やロジックを受け取り、イベントを通知。
+完成した構造
+TagManager
+管理: 状態（tags, selectedTags）とロジック
+子:
+TagAdder: 新しいタグを追加
+TagList
+子:
+Tag: 単一のタグ表示とクリック処理
+設計のポイントまとめ
+小さなコンポーネントに分ける
+コンポーネントごとに責務を限定する。
+親が状態を管理
+子コンポーネントは受け渡されたデータとイベント通知に専念。
+再利用性を意識
+汎用的な構造にする（Tag はあらゆるリストに利用可能）。
+このような分離により、コードが整理され、拡張性やテストのしやすさが向上します！

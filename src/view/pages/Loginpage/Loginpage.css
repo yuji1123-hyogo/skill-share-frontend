@@ -1,0 +1,108 @@
+.Login{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: rgb(105, 88, 177);
+    background: linear-gradient(
+      117deg,
+      rgba(105, 88, 177, 1) 5%,
+      rgba(87, 30, 97, 0.9556197478991597) 100%
+    );
+}
+.Login__left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Login__left__apptitle{
+    font-size: 50px;
+    font-weight: 700;
+}
+.Login__left__greeting{
+    font-size: 25px;
+    font-weight: 300;
+}
+.Login__left{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Login__right{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Login__right__form{
+    background-color: rgb(29, 174, 174);
+    width: 60%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding:10px;
+    box-shadow: 1px 5px 19px -12px #333333;
+    min-height: 300px;
+    align-items: center;
+    background-color: #fbf5f5;
+    box-shadow: 2px 12px 17px -7px #383838;
+}
+label{
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 600;
+}
+.Login__right__form__input{
+    border-radius: 5px;
+    border: solid 1px;
+    width: 90%;
+    height: 20px;
+    padding:10px ;
+}
+.Login__right__form__input:focus{
+    outline: none;
+}
+.Login__right__form__button--login{
+    width: 80%;
+    border-radius: 5px;
+    border: solid 1px;
+    margin-top: 30px;
+    height: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #0563b4;
+    color: white;
+}
+
+.Login__right__form__button--register{
+    width: 80%;
+    border-radius: 5px;
+    border: solid 1px;
+    margin-top: 5px;
+    height: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    background: #0563b4;
+    color: white;
+}
+
+button:hover {
+    background-color: #0e528d;
+}
+
+.Login__right__form__registerintro{
+    margin-top: 10px;
+}
+
+
+  /* レスポンシブ対応 */
+  @media (max-width: 1024px) {
+    .Login__left{
+        display: none;
+    }
+    .Login__right{
+        width: 100%;
+    }
+
+  }

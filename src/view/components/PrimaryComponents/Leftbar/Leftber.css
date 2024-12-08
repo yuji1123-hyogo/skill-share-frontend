@@ -1,0 +1,55 @@
+/* 左サイドバーのスタイル */
+.leftbar {
+  background-color: #2c3e50; 
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); 
+}
+
+/* ナビゲーション全体のスタイル */
+.leftbar__nav {
+  list-style: none; /* デフォルトのリストスタイルを解除 */
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* 垂直方向に並べる */
+  gap: 15px; /* アイテム間の余白 */
+}
+
+/* ナビゲーションアイテムのスタイル */
+.leftbar__nav__item {
+  color: #ecf0f1; /* テキスト色（明るい色でコントラストをつける） */
+  font-size: 1.1rem; /* フォントサイズを少し大きく */
+  font-weight: 500; /* フォントの太さを中程度に */
+  padding: 10px 15px; /* 内側の余白 */
+  border-radius: 5px; /* 角を丸くする */
+  transition: all 0.3s ease; /* ホバーやアクティブ状態のスムーズなアニメーション */
+  text-align: left; /* テキストを左揃え */
+  cursor: pointer; /* クリック可能な要素にする */
+  user-select: none; /* テキスト選択を無効化 */
+}
+
+/* リンク（`Link`要素）内のスタイル */
+.leftbar__nav__item a {
+  text-decoration: none; /* リンクの下線を削除 */
+  color: inherit; /* 親の色を引き継ぐ */
+}
+
+/* ホバー時のスタイル */
+.leftbar__nav__item:hover {
+  background-color: #34495e; /* ホバー時の背景色 */
+  color: #ffffff; /* テキスト色を白く */
+}
+
+/* アクティブなリンクのスタイル */
+.leftbar__nav__item:active {
+  background-color: #1abc9c; /* アクティブ時の背景色 */
+  color: #ffffff; /* テキスト色を白く */
+}
+
+
+@media (max-width: 1024px) {
+  .leftbar {
+      width: 200px; /* モバイルでは幅を少し狭く */
+  }
+}

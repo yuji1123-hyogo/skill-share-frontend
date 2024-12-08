@@ -1,0 +1,27 @@
+.messageTitle{
+    width: 100%;
+    text-align: center;
+}
+.messageList{
+    display: flex;
+    flex-direction: column;
+    padding:5px;
+    padding-bottom: 85px;
+    
+}
+  /* 投稿用フォーム */
+.direct-message-send-form {
+    position: fixed;
+    margin-left: 10px;
+    bottom: 0;
+    right:0;
+    width: 80%;
+    z-index: 900;
+    height: 85px;
+}
+
+@media (max-width: 1024px){
+    .direct-message-send-form{
+        width:  100%;
+    }
+}

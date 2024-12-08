@@ -1,0 +1,51 @@
+編集専用ページの実装
+タグ機能の完成
+クラブ機能の実装
+
+
+これが全部できたら筋トレ行く
+//ユーザーカードの保持するチャット情報
+パターン１:ユーザー情報にすでにチャットを行っているユーザーのIDを保持しておく。
+パターン2:ユーザー情報にはチャットに関する情報を保持せず、自分のIDと相手のIDからチャットIDを取得する。
+パターン3:ユーザー情報にチャットIDを保持しておき、相手のIDとチャットIDを使用して相手とチャットを行っているか判断する。
+データの一貫性とスケーラビリティの観点からパターン２（現状の物）が最適
+
+
+//フェッチされるユーザー情報の形を統一する
+各ページごとに見ていく(最低限必要なもの)。
+
+①プロフィール api:fetchUserDataByIdApicrient / apiClient.get(`/users/${userId}`)
+_id,name,bio,profilrpicture,hobbies〇
+
+②ホーム api: fetchTimelineApiCrient / apiClient.get(`/posts/timeline`);
+_id,name,bio,profilrpicture,hobbies,post〇
+
+③フレンドリスト api: followingUserlistApiCrient / apiClient.get(`/users/${userId}/followinglist`);
+_id,name,bio,profilrpicture,hobbies〇
+
+④チャットリスト api: fetcChatListApiCrient / apiClient.get(`/chats/chatList`)
+_id,name,bio,profilrpicture,hobbies〇
+
+⑤検索リスト api: axios.post( mode === "user" ? /search/user : CLUB_API_URL {searchTerm: inputVal,tags: selectedTags, // 選択されたタグも送信}
+_id,name,bio,profilrpicture,hobbies〇
+
+._idはデータベースから受け取ったのちできるだけ早くuserId変数に入れて管理する
+
+
+
+
+//クラブの作成
+//参加
+//検索
+
+//イベントの作成
+//参加
+//検索
+
+これらをライトバーで疑似的に行う
+
+
+
+//apiのテスト
+//テスト後のapiの適用UI完成
+//コンテキストと合わせてバックエンドとフロントエンドの連携を行う

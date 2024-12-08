@@ -1,0 +1,71 @@
+/* 全体のカードデザイン */
+.user-card {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  
+  /* プロフィール画像 */
+  .user-card-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* 基本情報 */
+  .user-card-basic {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .user-card-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  /* タグ */
+.user-card-hobbies-wrapper{
+  display: flex;
+  flex-direction: column;
+}
+.user-card-hobbies{
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+  
+  /* 最終メッセージ */
+  .user-card-last-message {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  /* アクションボタン */
+  .user-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .user-card-button {
+    padding: 6px;
+    font-size: 11px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .user-card-button:hover {
+    background-color: #0056b3;
+  }
+  
+

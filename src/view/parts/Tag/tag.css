@@ -1,0 +1,90 @@
+/* 趣味タグの共通スタイル */
+.tag {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    width: fit-content;
+    max-width: 200px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+  }
+  
+.tag:hover{
+  transform: scale(1.08);
+}
+/* タグヘッダー部分 */
+.tag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  
+  .tag-name {
+    font-weight: bold;
+    color: #333;
+  }
+
+/* レベルと経験値 */
+.tag-level-exp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:5px;
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 6px;
+  }
+
+.tag-level {
+    font-weight: bold;
+}
+  
+.tag-exp {
+    font-size: 10px;
+    color: #555;
+  }
+  
+  /* プログレスバー */
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .progress-bar-inner {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+
+
+.tag:hover {
+    background-color: #1687ff;
+}
+
+
+/* 設定ページ */ 
+.tag.tag-button-interesting:hover {
+    background-color: #ff7875;
+}
+  
+.tag.suggested-tag:hover {
+    background-color: #1687ff;
+    color: #fff;
+}
+  
+.tag.suggested-tag.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }

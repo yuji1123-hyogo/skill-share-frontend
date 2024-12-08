@@ -1,0 +1,53 @@
+.event-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.event-options button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
+  background-color: #4caf50;
+  transition: background-color 0.3s ease;
+}
+
+.event-options button:hover {
+  background-color: #45a049;
+}
+
+.event-options .event-start-button {
+  background-color: #2196f3;
+}
+
+.event-options .event-end-button {
+  background-color: #f44336;
+}
+
+.event-options select {
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.event-options select:focus {
+  border-color: #2196f3;
+  outline: none;
+}
+
+.event-options p {
+  font-size: 1rem;
+  color: #333;
+}
+
+.event-options .event-mvp {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  align-self: flex-start;
+}
