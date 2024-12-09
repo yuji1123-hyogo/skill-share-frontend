@@ -33,7 +33,7 @@ function Loginpage() {
     <>
     <div className='Login'>
       <div className='Login__left'>
-        <p className='Login__left__apptitle'>SNS</p>
+        <p className='Login__left__apptitle'>skill-share</p>
         <p className='Login__left__greeting'>ようこそ</p>
       </div>
       <div className='Login__right'>

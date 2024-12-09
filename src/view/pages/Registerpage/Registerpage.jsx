@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import "./Registerpage.css"
 import { checkExistUserNameApiCrient, registerApiCrient } from '../../../model/httpApiCrients/authApiCrient';
-const API_URL="http://localhost:5000/api"
+
 
 function Registerpage() {
   const [email,setEmail] = useState("")
@@ -43,7 +43,6 @@ function Registerpage() {
       console.log(serverErrorMessage);
       window.alert(serverErrorMessage);
     }
-
   }
 
   const hundleSubmit=(e)=>{
@@ -89,7 +88,7 @@ function Registerpage() {
     <>
     <div className='Login'>
       <div className='Login__left'>
-        <p className='Login__left__apptitle'>SNS</p>
+        <p className='Login__left__apptitle'>skill-share</p>
         <p className='Login__left__greeting'>ようこそ</p>
       </div>
       <div className='Login__right'>
