@@ -8,6 +8,7 @@ import { useTagManeger } from "../../../controller/useTagManeger";
 import TagManager from "../../components/Edditer/TagManeger/TagManeger";
 import { useSelector } from "react-redux";
 import { SearchUserOrClubApiCrient } from "../../../model/httpApiCrients/searchApiCrient";
+import TagFilter from "../../components/PrimaryComponents/TagFilter/TagFilter";
 
 
 
@@ -20,6 +21,11 @@ function Search() {
   const [tagSearch,settagSearch] = useState(true)
   const currentUser = useSelector((state)=>state.user)
  
+  const [filteredResultsState,setFilteredResultsState] = useState([])
+  const [targetTag, setTargetTag] = useState(""); // ターゲットタグ
+  const [sortOrder, setSortOrder] = useState("ascend");
+
+  
   const {
     setInterestingTags,
     suggestedTags,
@@ -34,6 +40,10 @@ function Search() {
     handleTagSuggestionByInputChange
   }
   =useTagManeger({edditType:"user-update",currentUser})
+
+
+
+
 
   const modelist=[
     {key:"club",label:"クラブ検索"},
@@ -60,7 +70,9 @@ function Search() {
         }
       } else {
         setUserResults([]);
-        setClubresults([])
+        setClubresults([]);
+        setFilteredResultsState([]);
+
       }
     }, 400);
 
@@ -71,6 +83,8 @@ function Search() {
     setSearchTerm(""); // 入力値をクリア
     setUserResults([]); // 検索結果をクリア
     setClubresults([])// 検索結果をクリア
+    setFilteredResultsState([]);
+    setTargetTag("")
   },[mode])
 
 
@@ -113,17 +127,42 @@ function Search() {
         }
       </div>
 
-      <div className="search-results">
-        {mode === "user" &&  userResults.length > 0 && userResults.map((user) => (
-             <Usercard
-             key={user._id} 
-             user={user} 
-             page="Search"/>
-        ))}
+        {/* フィルタリングとソート */}
+        {
+          (userResults.length > 0 || clubResults.length > 0) &&
+          <TagFilter 
+          filteredResultsState={filteredResultsState}
+          setFilteredResultsState={setFilteredResultsState}
+          mode={mode}
+          targetTag={targetTag}
+          setSortOrder={setSortOrder}
+          sortOrder={sortOrder}
+          setTargetTag={setTargetTag}
+          userResults={userResults}
+          clubResults={clubResults}
+        />
+        }
 
-        {mode === "club" && clubResults.length > 0 && clubResults.map((club) => (
-             <ClubDetailsTab key={club._id} club={club}/>
-        ))}
+
+      <div className="search-results">
+        {mode === "user" &&
+          filteredResultsState.length === 0 &&
+          userResults.length > 0 &&
+          userResults.map((user) => <Usercard key={user._id} user={user} page="Search" />)}
+
+        {mode === "club" &&
+          filteredResultsState.length === 0 &&
+          clubResults.length > 0 &&
+          clubResults.map((club) => <ClubDetailsTab key={club._id} club={club} />)}
+
+        {filteredResultsState.length > 0 &&
+          filteredResultsState.map((result) =>
+            mode === "user" ? (
+              <Usercard key={result._id} user={result} page="Search" />
+            ) : (
+              <ClubDetailsTab key={result._id} club={result} />
+            )
+          )}
       </div>
     </div>
     

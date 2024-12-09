@@ -64,10 +64,12 @@ function ProfilePage() {
   }, [paramUserId]
 ); 
 
-  const handleFollow = async (userId) =>{
+  const handleFollow = async () =>{
     try{
-      dispatch(followActionCreater(userId))
-      setIsFollowed((prev)=>!prev)
+      console.log("フォロー処理開始", paramUserId); // デバッグログ
+      await dispatch(followActionCreater(paramUserId)).unwrap();
+      console.log("フォロー処理成功"); // 成功時ログ
+      setIsFollowed((prev) => !prev);
     }catch(e){
       console.log("フォローエラー",e)
     }
@@ -76,8 +78,6 @@ function ProfilePage() {
 const postscroll = () => {
   postsEndRef.current.scrollIntoView({ behavior: "smooth" });
 }
-
-
 
 
 
@@ -105,7 +105,7 @@ const postscroll = () => {
 
                 {/* フォローボタン */}
                 {!isMine && (
-                  <button className="follow-btn" onClick={()=>handleFollow(userInfo._id)}>
+                  <button className="profile-follow-button" onClick={handleFollow}>
                     {isFollowed ? "フォロー解除" : "フォロー"}
                   </button>
                 )}
