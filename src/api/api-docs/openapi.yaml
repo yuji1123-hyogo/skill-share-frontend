@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Club Management API
+  description: クラブ管理システムのための API
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com
+    description: 本番環境
+
+paths:
+  /auth/register:
+    $ref: "./paths/auth.yaml#/paths/~1auth~1register"
+  /auth/login:
+    $ref: "./paths/auth.yaml#/paths/~1auth~1login"
+  /auth/logout:
+    $ref: "./paths/auth.yaml#/paths/~1auth~1logout"
+  /auth/check-email:
+    $ref: "./paths/auth.yaml#/paths/~1auth~1check-email"
+  /auth/check-username:
+    $ref: "./paths/auth.yaml#/paths/~1auth~1check-username"
+
+  /users/me:
+    $ref: "./paths/users.yaml#/paths/~1users~1me"
+  /users/me/clubs:
+    $ref: "./paths/users.yaml#/paths/~1users~1me~1clubs"
+  /users/search:
+    $ref: "./paths/users.yaml#/paths/~1users~1search"
+  /users/{userId}:
+    $ref: "./paths/users.yaml#/paths/~1users~1{userId}"
+  /users/{userId}/follow:
+    $ref: "./paths/users.yaml#/paths/~1users~1{userId}~1follow"
+
+  /clubs:
+    $ref: "./paths/clubs.yaml#/paths/~1clubs"
+  /clubs/search:
+    $ref: "./paths/clubs.yaml#/paths/~1clubs~1search"
+  /clubs/{clubId}:
+    $ref: "./paths/clubs.yaml#/paths/~1clubs~1{clubId}"
+  /clubs/{clubId}/members:
+    $ref: "./paths/clubs.yaml#/paths/~1clubs~1{clubId}~1members"
+  /clubs/{clubId}/join:
+    $ref: "./paths/clubs.yaml#/paths/~1clubs~1{clubId}~1join"
+  /clubs/{clubId}/events:
+    $ref: "./paths/clubs.yaml#/paths/~1clubs~1{clubId}~1events"
+
+  /events:
+    $ref: "./paths/events.yaml#/paths/~1events"
+  /events/{eventId}:
+    $ref: "./paths/events.yaml#/paths/~1events~1{eventId}"
+  /events/{eventId}/join:
+    $ref: "./paths/events.yaml#/paths/~1events~1{eventId}~1join"
+  /events/{eventId}/status:
+    $ref: "./paths/events.yaml#/paths/~1events~1{eventId}~1status"
+  /events/{eventId}/vote:
+    $ref: "./paths/events.yaml#/paths/~1events~1{eventId}~1vote"
+  /events/{eventId}/mvp:
+    $ref: "./paths/events.yaml#/paths/~1events~1{eventId}~1mvp"
+  /events/{eventId}/distribute-exp:
+    $ref: "./paths/events.yaml#/paths/~1events~1{eventId}~1distribute-exp"
+
+  /posts:
+    $ref: "./paths/posts.yaml#/paths/~1posts"
+  /posts/home:
+    $ref: "./paths/posts.yaml#/paths/~1posts~1home"
+  /posts/{postId}:
+    $ref: "./paths/posts.yaml#/paths/~1posts~1{postId}"
+  /posts/users/{userId}:
+    $ref: "./paths/posts.yaml#/paths/~1posts~1users~1{userId}"
+  /posts/clubs/{clubId}:
+    $ref: "./paths/posts.yaml#/paths/~1posts~1clubs~1{clubId}"
+
+  /comments/post/{postId}:
+    $ref: "./paths/comments.yaml#/paths/~1comments~1post~1{postId}"
+  /comments/{commentId}:
+    $ref: "./paths/comments.yaml#/paths/~1comments~1{commentId}"
+
+components:
+  schemas:
+    $ref: "./components/schemas.yaml#/schemas"
+  responses:
+    $ref: "./components/responses.yaml#/responses"

@@ -1,0 +1,1326 @@
+openapi: 3.0.0
+info:
+  title: PI
+  description:  API
+  version: 1.0.0
+servers:
+- url: https://localhost:5000/api
+  description: 開発環境
+paths:
+  /auth/register:
+    post:
+      summary: ユーザー登録
+      description: 新しいユーザーを登録します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - username
+              - email
+              - password
+              properties:
+                username:
+                  type: string
+                  description: ユーザー名
+                  example: testuser
+                email:
+                  type: string
+                  format: email
+                  description: メールアドレス
+                  example: test@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: password123
+      responses: null
+  /auth/login:
+    post:
+      summary: ユーザーログイン
+      description: ユーザーを認証し、セッションを開始します。（トークンはクッキーに保存）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: メールアドレス
+                  example: test@example.com
+                password:
+                  type: string
+                  description: パスワード
+                  example: password123
+      responses:
+        '200':
+          description: ログイン成功（トークンはクッキーに保存）
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ログイン成功
+                  user:
+                    $ref: #/components/schemas.yaml#/schemas/User
+  /auth/logout:
+    post:
+      summary: ログアウト
+      description: ユーザーをログアウトし、クッキーを無効化します。
+      responses: null
+  /auth/check-email:
+    get:
+      summary: メールアドレスの存在確認
+      description: 指定されたメールアドレスがすでに登録されているか確認します。
+      parameters:
+      - name: email
+        in: query
+        required: true
+        schema:
+          type: string
+          format: email
+        description: チェックするメールアドレス
+      responses:
+        '200':
+          description: メールアドレスの存在確認結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: メールアドレスの存在確認
+                  exists:
+                    type: boolean
+                    example: true
+  /auth/check-username:
+    get:
+      summary: ユーザー名の存在確認
+      description: 指定されたユーザー名がすでに登録されているか確認します。
+      parameters:
+      - name: username
+        in: query
+        required: true
+        schema:
+          type: string
+        description: チェックするユーザー名
+      responses:
+        '200':
+          description: ユーザー名の存在確認結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ユーザー名の存在確認
+                  exists:
+                    type: boolean
+                    example: false
+  /users/me:
+    get:
+      summary: 自分のユーザー情報取得
+      description: 認証済みユーザーの情報を取得します。
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: ユーザー情報取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ユーザー情報取得成功
+                  user:
+                    $ref: #/components/schemas.yaml#/schemas/User
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+    put:
+      summary: 自分のユーザー情報更新
+      description: 認証済みユーザーの情報を更新します。
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 更新するユーザー名
+                  example: newusername
+                profilePicture:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: 更新するプロフィール画像URL
+                bio:
+                  type: string
+                  nullable: true
+                  description: 更新する自己紹介
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: 更新するタグリスト
+      responses:
+        '200':
+          description: ユーザー情報更新成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ユーザー情報を更新しました
+                  user:
+                    $ref: #/components/schemas.yaml#/schemas/User
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+  /users/me/clubs:
+    get:
+      summary: 参加しているクラブの取得
+      description: 認証済みユーザーが参加しているクラブの一覧を取得します。
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: 参加クラブ取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 参加しているクラブ一覧を取得しました
+                  clubs:
+                    type: array
+                    items:
+                      type: string
+                    description: クラブIDのリスト
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+  /users/search:
+    get:
+      summary: ユーザー検索
+      description: 指定した条件に合うユーザーを検索します。
+      parameters:
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 検索するユーザー名
+      - name: tags
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: 検索するタグリスト
+      responses:
+        '200':
+          description: ユーザー検索結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ユーザー検索結果
+                  users:
+                    type: array
+                    items:
+                      type: string
+                    description: ユーザーIDのリスト
+  /users/{userId}:
+    get:
+      summary: 特定のユーザー情報取得
+      description: 指定したユーザーの情報を取得します。
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 取得するユーザーのID
+      responses:
+        '200':
+          description: ユーザー情報取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ユーザー情報取得成功
+                  user:
+                    $ref: #/components/schemas.yaml#/schemas/User
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /users/{userId}/follow:
+    put:
+      summary: ユーザーのフォロー・フォロー解除
+      description: 指定したユーザーをフォローまたはフォロー解除します。
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: フォローする/解除するユーザーのID
+      responses:
+        '200':
+          description: フォロー状態の変更成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: フォロー状態を変更しました
+                  user:
+                    $ref: #/components/schemas.yaml#/schemas/User
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /clubs:
+    post:
+      summary: クラブ作成
+      description: 認証済みユーザーが新しいクラブを作成します。
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: クラブ名
+                  example: テストクラブ
+                description:
+                  type: string
+                  nullable: true
+                  description: クラブの説明
+                themeImage:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: クラブのテーマ画像
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: クラブのタグリスト
+      responses:
+        '201':
+          description: クラブ作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブを作成しました
+                  club:
+                    $ref: #/components/schemas.yaml#/schemas/Club
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+  /clubs/search:
+    get:
+      summary: クラブ検索
+      description: 指定した条件に合うクラブを検索します。
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: 検索するクラブ名
+      - name: tags
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: 検索するタグリスト
+      responses:
+        '200':
+          description: クラブ検索結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブ検索結果
+                  clubs:
+                    type: array
+                    items:
+                      type: string
+                    description: クラブIDのリスト
+  /clubs/{clubId}:
+    get:
+      summary: クラブ詳細取得
+      description: 指定したクラブの情報を取得します。
+      parameters:
+      - name: clubId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 取得するクラブのID
+      responses:
+        '200':
+          description: クラブ情報取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブ情報取得成功
+                  club:
+                    $ref: #/components/schemas.yaml#/schemas/Club
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+    put:
+      summary: クラブ情報更新
+      description: クラブ管理者がクラブの情報を更新します。
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 更新するクラブ名
+                description:
+                  type: string
+                  nullable: true
+                  description: 更新するクラブの説明
+                themeImage:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: 更新するクラブのテーマ画像
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  description: 更新するクラブのタグリスト
+      responses:
+        '200':
+          description: クラブ情報更新成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブ情報を更新しました
+                  club:
+                    $ref: #/components/schemas.yaml#/schemas/Club
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '403':
+          $ref: #/components/responses.yaml#/responses/ForbiddenResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /clubs/{clubId}/events:
+    get:
+      summary: クラブのイベント一覧取得
+      description: 指定したクラブのイベント一覧を取得します。
+      parameters:
+      - name: clubId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: クラブID
+      responses:
+        '200':
+          description: クラブのイベント一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブのイベント一覧を取得しました
+                  events:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        eventId:
+                          type: string
+                          example: 67acae8e88b10f6f1bbf3553
+                        status:
+                          type: string
+                          example: upcoming
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /clubs/{clubId}/members:
+    get:
+      summary: クラブのメンバー取得
+      description: 指定したクラブのメンバー一覧を取得します。
+      parameters:
+      - name: clubId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 取得するクラブのID
+      responses:
+        '200':
+          description: クラブのメンバー取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブのメンバー一覧
+                  members:
+                    type: array
+                    items:
+                      type: string
+                    description: クラブメンバーのユーザーIDリスト
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /clubs/{clubId}/join:
+    post:
+      summary: クラブ参加
+      description: ユーザーが指定したクラブに参加します。
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: clubId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 参加するクラブのID
+      responses:
+        '200':
+          description: クラブ参加成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブに参加しました
+                  club:
+                    $ref: #/components/schemas.yaml#/schemas/Club
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /events:
+    post:
+      summary: イベント作成
+      description: クラブに新しいイベントを作成します。
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - club
+              properties:
+                name:
+                  type: string
+                  description: イベント名
+                description:
+                  type: string
+                  nullable: true
+                  description: イベントの説明
+                date:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: イベントの開催日時
+                location:
+                  type: string
+                  nullable: true
+                  description: イベントの場所
+                club:
+                  type: string
+                  description: クラブID
+                eventtags:
+                  type: array
+                  items:
+                    type: string
+                  description: イベントタグリスト
+      responses:
+        '201':
+          description: イベント作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: イベントを作成しました
+                  event:
+                    $ref: #/components/schemas.yaml#/schemas/Event
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+  /events/{eventId}:
+    get:
+      summary: イベント詳細取得
+      description: 指定したイベントの情報を取得します。
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 取得するイベントのID
+      responses:
+        '200':
+          description: イベント情報取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: イベント情報取得成功
+                  event:
+                    $ref: #/components/schemas.yaml#/schemas/Event
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /events/{eventId}/vote:
+    post:
+      summary: MVP 投票
+      description: イベントの MVP を投票します。
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MVP 投票対象のイベントID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - candidate
+              properties:
+                candidate:
+                  type: string
+                  description: MVP に投票するユーザーID
+      responses:
+        '200':
+          description: MVP 投票成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: MVP 投票を完了しました
+                  event:
+                    $ref: #/components/schemas.yaml#/schemas/Event
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /events/{eventId}/mvp:
+    post:
+      summary: MVP 決定
+      description: イベントの MVP を決定します。
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: MVP を決定するイベントID
+      responses:
+        '200':
+          description: MVP 決定成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: MVP を決定しました
+                  event:
+                    $ref: #/components/schemas.yaml#/schemas/Event
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /events/{eventId}/distribute-exp:
+    post:
+      summary: 経験値分配
+      description: イベント終了後、参加者に経験値を分配します。
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 経験値を分配するイベントID
+      responses:
+        '200':
+          description: 経験値分配成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 経験値が分配されました
+                  updatedUsers:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - userId1
+                    - userId2
+                  updatedClub:
+                    type: string
+                    nullable: true
+                    example: clubId
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /posts:
+    post:
+      summary: 投稿作成
+      description: 新しい投稿を作成します。
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - content
+              properties:
+                content:
+                  type: string
+                  description: 投稿内容
+                media:
+                  type: string
+                  format: uri
+                  nullable: true
+                  description: メディアURL（画像・動画など）
+                club:
+                  type: string
+                  nullable: true
+                  description: クラブID（クラブに関連付ける場合）
+      responses:
+        '201':
+          description: 投稿作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 投稿を作成しました
+                  post:
+                    $ref: #/components/schemas.yaml#/schemas/Post
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+  /posts/home:
+    get:
+      summary: ホームフィード取得
+      description: ユーザーのフォローしているユーザーの投稿一覧を取得します。
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: ホームフィード取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ホームフィードを取得しました
+                  posts:
+                    type: array
+                    items:
+                      $ref: #/components/schemas.yaml#/schemas/Post
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+  /posts/{postId}:
+    get:
+      summary: 投稿詳細取得
+      description: 指定した投稿の詳細情報を取得します。
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 取得する投稿のID
+      responses:
+        '200':
+          description: 投稿詳細取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 投稿の詳細を取得しました
+                  post:
+                    $ref: #/components/schemas.yaml#/schemas/Post
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /posts/users/{userId}:
+    get:
+      summary: ユーザーの投稿一覧取得
+      description: 指定したユーザーの投稿一覧を取得します。
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 投稿一覧を取得するユーザーID
+      responses:
+        '200':
+          description: ユーザーの投稿一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ユーザーの投稿一覧を取得しました
+                  posts:
+                    type: array
+                    items:
+                      $ref: #/components/schemas.yaml#/schemas/Post
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /posts/clubs/{clubId}:
+    get:
+      summary: クラブの投稿一覧取得
+      description: 指定したクラブの投稿一覧を取得します。
+      parameters:
+      - name: clubId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 投稿一覧を取得するクラブID
+      responses:
+        '200':
+          description: クラブの投稿一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: クラブの投稿一覧を取得しました
+                  posts:
+                    type: array
+                    items:
+                      $ref: #/components/schemas.yaml#/schemas/Post
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /comments/post/{postId}:
+    post:
+      summary: コメント作成
+      description: 指定した投稿にコメントを追加します。
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: コメントを追加する投稿のID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - content
+              properties:
+                content:
+                  type: string
+                  description: コメントの内容
+      responses:
+        '201':
+          description: コメント作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: コメントを追加しました
+                  comment:
+                    $ref: #/components/schemas.yaml#/schemas/Comment
+        '400':
+          $ref: #/components/responses.yaml#/responses/ValidationErrorResponse
+        '401':
+          $ref: #/components/responses.yaml#/responses/UnauthorizedResponse
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+    get:
+      summary: 投稿のコメント一覧取得
+      description: 指定した投稿に紐づくコメント一覧を取得します。
+      parameters:
+      - name: postId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: コメントを取得する投稿のID
+      responses:
+        '200':
+          description: コメント一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 投稿のコメント一覧を取得しました
+                  comments:
+                    type: array
+                    items:
+                      $ref: #/components/schemas.yaml#/schemas/Comment
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+  /comments/{commentId}:
+    get:
+      summary: コメント詳細取得
+      description: 指定したコメントの詳細を取得します。
+      parameters:
+      - name: commentId
+        in: path
+        required: true
+        schema:
+          type: string
+        description: 取得するコメントのID
+      responses:
+        '200':
+          description: コメント詳細取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: コメントの詳細を取得しました
+                  comment:
+                    $ref: #/components/schemas.yaml#/schemas/Comment
+        '404':
+          $ref: #/components/responses.yaml#/responses/NotFoundResponse
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ユーザーID
+        username:
+          type: string
+          description: ユーザー名
+        email:
+          type: string
+          description: メールアドレス
+        profilePicture:
+          type: string
+          format: uri
+          nullable: true
+          description: プロフィール画像URL
+        bio:
+          type: string
+          nullable: true
+          description: 自己紹介
+        clubs:
+          type: array
+          items:
+            type: string
+          description: 参加しているクラブのIDリスト
+        posts:
+          type: array
+          items:
+            type: string
+          description: 投稿のIDリスト
+        following:
+          type: array
+          items:
+            type: string
+          description: フォローしているユーザーのIDリスト
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          description: ユーザーのタグリスト
+    Club:
+      type: object
+      properties:
+        id:
+          type: string
+          description: クラブID
+        name:
+          type: string
+          description: クラブ名
+        description:
+          type: string
+          nullable: true
+          description: クラブの説明
+        themeImage:
+          type: string
+          format: uri
+          nullable: true
+          description: クラブのテーマ画像
+        members:
+          type: array
+          items:
+            type: string
+          description: クラブのメンバーIDリスト
+        events:
+          type: array
+          items:
+            type: string
+          description: クラブのイベントIDリスト
+        posts:
+          type: array
+          items:
+            type: string
+          description: クラブの投稿IDリスト
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          description: クラブのタグリスト
+        createdAt:
+          type: string
+          format: date-time
+          description: クラブ作成日時
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          description: イベントID
+        name:
+          type: string
+          description: イベント名
+        host:
+          type: string
+          description: イベントホストのユーザーID
+        description:
+          type: string
+          nullable: true
+          description: イベントの説明
+        date:
+          type: string
+          format: date-time
+          nullable: true
+          description: イベントの開催日時
+        location:
+          type: string
+          nullable: true
+          description: イベントの場所
+        status:
+          type: string
+          enum:
+          - upcoming
+          - ongoing
+          - completed
+          description: イベントのステータス
+        club:
+          type: string
+          description: クラブID
+        participants:
+          type: array
+          items:
+            type: string
+          description: 参加者のユーザーIDリスト
+        mvp:
+          type: string
+          nullable: true
+          description: MVPユーザーID
+        votes:
+          type: array
+          items:
+            type: object
+            properties:
+              voter:
+                type: string
+                description: 投票者のユーザーID
+              candidate:
+                type: string
+                description: MVP候補のユーザーID
+          description: MVP投票情報
+        expDistributed:
+          type: boolean
+          description: 経験値が分配されたかどうか
+        eventtags:
+          type: array
+          items:
+            type: string
+          description: イベントタグリスト
+        createdAt:
+          type: string
+          format: date-time
+          description: イベント作成日時
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 投稿ID
+        content:
+          type: string
+          description: 投稿内容
+        media:
+          type: string
+          format: uri
+          nullable: true
+          description: 投稿のメディアURL
+        author:
+          type: string
+          description: 投稿の作成者（ユーザーID）
+        club:
+          type: string
+          nullable: true
+          description: 関連クラブのID（ない場合はnull）
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+          description: 投稿のタグリスト
+        comments:
+          type: array
+          items:
+            type: string
+          description: 投稿に紐づくコメントIDリスト
+        createdAt:
+          type: string
+          format: date-time
+          description: 投稿作成日時
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+          description: コメントID
+        content:
+          type: string
+          description: コメントの内容
+        author:
+          type: string
+          description: コメントの作成者（ユーザーID）
+        post:
+          type: string
+          description: 対象の投稿ID
+        createdAt:
+          type: string
+          format: date-time
+          description: コメント作成日時
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+          description: タグの名前
+        level:
+          type: integer
+          description: タグのレベル
+        currentExperience:
+          type: integer
+          description: 現在の経験値
+        nextLevelExperience:
+          type: integer
+          description: 次のレベルに必要な経験値
+  responses:
+    SuccessResponse:
+      description: 正常なレスポンス
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: 操作結果のメッセージ
+    ErrorResponse:
+      description: エラーレスポンス
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: エラーメッセージ
+              errors:
+                type: array
+                items:
+                  type: string
+                description: 詳細エラーリスト（バリデーションエラーなど）
+    UnauthorizedResponse:
+      description: 認証が必要なリクエストに対するエラー
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: 認証が必要です
+              errors:
+                type: array
+                items:
+                  type: string
+                description: 詳細エラーリスト
+    ForbiddenResponse:
+      description: アクセス権限がない場合のエラー
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: この操作を実行する権限がありません
+              errors:
+                type: array
+                items:
+                  type: string
+                description: 詳細エラーリスト
+    NotFoundResponse:
+      description: 指定されたリソースが見つからない場合のエラー
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: リソースが見つかりません
+              errors:
+                type: array
+                items:
+                  type: string
+                description: 詳細エラーリスト
+    ValidationErrorResponse:
+      description: バリデーションエラーのレスポンス
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: リクエストバリデーションエラー
+              errors:
+                type: array
+                items:
+                  type: string
+                description: バリデーションエラーの詳細リスト

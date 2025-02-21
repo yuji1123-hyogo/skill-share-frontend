@@ -1,0 +1,239 @@
+paths:
+  /events:
+    post:
+      summary: イベント作成
+      description: クラブに新しいイベントを作成します。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - club
+              properties:
+                name:
+                  type: string
+                  description: イベント名
+                description:
+                  type: string
+                  nullable: true
+                  description: イベントの説明
+                date:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: イベントの開催日時
+                location:
+                  type: string
+                  nullable: true
+                  description: イベントの場所
+                club:
+                  type: string
+                  description: クラブID
+                eventtags:
+                  type: array
+                  items:
+                    type: string
+                  description: イベントタグリスト
+      responses:
+        "201":
+          description: イベント作成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "イベントを作成しました"
+                  event:
+                    $ref: "../components/schemas.yaml#/schemas/Event"
+        "400":
+          $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../components/responses.yaml#/responses/UnauthorizedResponse"
+
+  /events/{eventId}:
+    get:
+      summary: イベント詳細取得
+      description: 指定したイベントの情報を取得します。
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 取得するイベントのID
+      responses:
+        "200":
+          description: イベント情報取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "イベント情報取得成功"
+                  event:
+                    $ref: "../components/schemas.yaml#/schemas/Event"
+        "404":
+          $ref: "../components/responses.yaml#/responses/NotFoundResponse"
+
+  /clubs/{clubId}/events:
+    get:
+      summary: クラブのイベント一覧取得
+      description: 指定したクラブのイベント一覧を取得します。
+      parameters:
+        - name: clubId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: クラブID
+      responses:
+        "200":
+          description: クラブのイベント一覧取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "クラブのイベント一覧を取得しました"
+                  events:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        eventId:
+                          type: string
+                          example: "67acae8e88b10f6f1bbf3553"
+                        status:
+                          type: string
+                          example: "upcoming"
+        "404":
+          $ref: "../components/responses.yaml#/responses/NotFoundResponse"
+
+  /events/{eventId}/vote:
+    post:
+      summary: MVP 投票
+      description: イベントの MVP を投票します。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: MVP 投票対象のイベントID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - candidate
+              properties:
+                candidate:
+                  type: string
+                  description: MVP に投票するユーザーID
+      responses:
+        "200":
+          description: MVP 投票成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "MVP 投票を完了しました"
+                  event:
+                    $ref: "../components/schemas.yaml#/schemas/Event"
+        "400":
+          $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../components/responses.yaml#/responses/UnauthorizedResponse"
+        "404":
+          $ref: "../components/responses.yaml#/responses/NotFoundResponse"
+
+  /events/{eventId}/mvp:
+    post:
+      summary: MVP 決定
+      description: イベントの MVP を決定します。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: MVP を決定するイベントID
+      responses:
+        "200":
+          description: MVP 決定成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "MVP を決定しました"
+                  event:
+                    $ref: "../components/schemas.yaml#/schemas/Event"
+        "400":
+          $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../components/responses.yaml#/responses/UnauthorizedResponse"
+        "404":
+          $ref: "../components/responses.yaml#/responses/NotFoundResponse"
+
+  /events/{eventId}/distribute-exp:
+    post:
+      summary: 経験値分配
+      description: イベント終了後、参加者に経験値を分配します。
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 経験値を分配するイベントID
+      responses:
+        "200":
+          description: 経験値分配成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "経験値が分配されました"
+                  updatedUsers:
+                    type: array
+                    items:
+                      type: string
+                    example: ["userId1", "userId2"]
+                  updatedClub:
+                    type: string
+                    nullable: true
+                    example: "clubId"
+        "400":
+          $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+        "401":
+          $ref: "../components/responses.yaml#/responses/UnauthorizedResponse"
+        "404":
+          $ref: "../components/responses.yaml#/responses/NotFoundResponse"

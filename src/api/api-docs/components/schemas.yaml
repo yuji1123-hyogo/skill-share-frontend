@@ -1,0 +1,223 @@
+schemas:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ユーザーID
+      username:
+        type: string
+        description: ユーザー名
+      email:
+        type: string
+        description: メールアドレス
+      profilePicture:
+        type: string
+        format: uri
+        nullable: true
+        description: プロフィール画像URL
+      bio:
+        type: string
+        nullable: true
+        description: 自己紹介
+      clubs:
+        type: array
+        items:
+          type: string
+        description: 参加しているクラブのIDリスト
+      posts:
+        type: array
+        items:
+          type: string
+        description: 投稿のIDリスト
+      following:
+        type: array
+        items:
+          type: string
+        description: フォローしているユーザーのIDリスト
+      tags:
+        type: array
+        items:
+          $ref: "#/components/schemas/Tag"
+        description: ユーザーのタグリスト
+
+  Club:
+    type: object
+    properties:
+      id:
+        type: string
+        description: クラブID
+      name:
+        type: string
+        description: クラブ名
+      description:
+        type: string
+        nullable: true
+        description: クラブの説明
+      themeImage:
+        type: string
+        format: uri
+        nullable: true
+        description: クラブのテーマ画像
+      members:
+        type: array
+        items:
+          type: string
+        description: クラブのメンバーIDリスト
+      events:
+        type: array
+        items:
+          type: string
+        description: クラブのイベントIDリスト
+      posts:
+        type: array
+        items:
+          type: string
+        description: クラブの投稿IDリスト
+      tags:
+        type: array
+        items:
+          $ref: "#/components/schemas/Tag"
+        description: クラブのタグリスト
+      createdAt:
+        type: string
+        format: date-time
+        description: クラブ作成日時
+
+  Event:
+    type: object
+    properties:
+      id:
+        type: string
+        description: イベントID
+      name:
+        type: string
+        description: イベント名
+      host:
+        type: string
+        description: イベントホストのユーザーID
+      description:
+        type: string
+        nullable: true
+        description: イベントの説明
+      date:
+        type: string
+        format: date-time
+        nullable: true
+        description: イベントの開催日時
+      location:
+        type: string
+        nullable: true
+        description: イベントの場所
+      status:
+        type: string
+        enum: ["upcoming", "ongoing", "completed"]
+        description: イベントのステータス
+      club:
+        type: string
+        description: クラブID
+      participants:
+        type: array
+        items:
+          type: string
+        description: 参加者のユーザーIDリスト
+      mvp:
+        type: string
+        nullable: true
+        description: MVPユーザーID
+      votes:
+        type: array
+        items:
+          type: object
+          properties:
+            voter:
+              type: string
+              description: 投票者のユーザーID
+            candidate:
+              type: string
+              description: MVP候補のユーザーID
+        description: MVP投票情報
+      expDistributed:
+        type: boolean
+        description: 経験値が分配されたかどうか
+      eventtags:
+        type: array
+        items:
+          type: string
+        description: イベントタグリスト
+      createdAt:
+        type: string
+        format: date-time
+        description: イベント作成日時
+
+  Post:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 投稿ID
+      content:
+        type: string
+        description: 投稿内容
+      media:
+        type: string
+        format: uri
+        nullable: true
+        description: 投稿のメディアURL
+      author:
+        type: string
+        description: 投稿の作成者（ユーザーID）
+      club:
+        type: string
+        nullable: true
+        description: 関連クラブのID（ない場合はnull）
+      tags:
+        type: array
+        items:
+          $ref: "#/components/schemas/Tag"
+        description: 投稿のタグリスト
+      comments:
+        type: array
+        items:
+          type: string
+        description: 投稿に紐づくコメントIDリスト
+      createdAt:
+        type: string
+        format: date-time
+        description: 投稿作成日時
+
+  Comment:
+    type: object
+    properties:
+      id:
+        type: string
+        description: コメントID
+      content:
+        type: string
+        description: コメントの内容
+      author:
+        type: string
+        description: コメントの作成者（ユーザーID）
+      post:
+        type: string
+        description: 対象の投稿ID
+      createdAt:
+        type: string
+        format: date-time
+        description: コメント作成日時
+
+  Tag:
+    type: object
+    properties:
+      name:
+        type: string
+        description: タグの名前
+      level:
+        type: integer
+        description: タグのレベル
+      currentExperience:
+        type: integer
+        description: 現在の経験値
+      nextLevelExperience:
+        type: integer
+        description: 次のレベルに必要な経験値

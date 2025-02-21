@@ -1,0 +1,142 @@
+paths:
+  /auth/register:
+    post:
+      summary: ユーザー登録
+      description: 新しいユーザーを登録します。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+              properties:
+                username:
+                  type: string
+                  description: ユーザー名
+                  example: "testuser"
+                email:
+                  type: string
+                  format: email
+                  description: メールアドレス
+                  example: "test@example.com"
+                password:
+                  type: string
+                  description: パスワード
+                  example: "password123"
+      responses:
+        # "201":
+        #   $ref: "../components/responses.yaml#/responses/SuccessResponse"
+        # "400":
+        #   $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+
+  /auth/login:
+    post:
+      summary: ユーザーログイン
+      description: ユーザーを認証し、セッションを開始します。（トークンはクッキーに保存）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: メールアドレス
+                  example: "test@example.com"
+                password:
+                  type: string
+                  description: パスワード
+                  example: "password123"
+      responses:
+        "200":
+          description: ログイン成功（トークンはクッキーに保存）
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "ログイン成功"
+                  user:
+                    $ref: "../components/schemas.yaml#/schemas/User"
+        # "400":
+        #   $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+        # "401":
+        #   $ref: "../components/responses.yaml#/responses/UnauthorizedResponse"
+
+  /auth/logout:
+    post:
+      summary: ログアウト
+      description: ユーザーをログアウトし、クッキーを無効化します。
+      responses:
+        # "200":
+        #   $ref: "../components/responses.yaml#/responses/SuccessResponse"
+        # "401":
+        #   $ref: "../components/responses.yaml#/responses/UnauthorizedResponse"
+
+  /auth/check-email:
+    get:
+      summary: メールアドレスの存在確認
+      description: 指定されたメールアドレスがすでに登録されているか確認します。
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+            format: email
+          description: チェックするメールアドレス
+      responses:
+        "200":
+          description: メールアドレスの存在確認結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "メールアドレスの存在確認"
+                  exists:
+                    type: boolean
+                    example: true
+        # "400":
+        #   $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
+
+  /auth/check-username:
+    get:
+      summary: ユーザー名の存在確認
+      description: 指定されたユーザー名がすでに登録されているか確認します。
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+          description: チェックするユーザー名
+      responses:
+        "200":
+          description: ユーザー名の存在確認結果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "ユーザー名の存在確認"
+                  exists:
+                    type: boolean
+                    example: false
+        # "400":
+        #   $ref: "../components/responses.yaml#/responses/ValidationErrorResponse"
