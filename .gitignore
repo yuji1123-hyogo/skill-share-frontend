@@ -1,2 +1,4 @@
 .env.development
-.env.productionnode_modules/
+.env.production
+.vscode/
+node_modules/
