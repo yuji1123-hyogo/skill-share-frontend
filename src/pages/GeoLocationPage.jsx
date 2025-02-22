@@ -23,8 +23,7 @@ useEffect(() => {
 
   return (
   <div>
-    dqjdqjdqd
-    <h1>GeoLocationPage</h1>
+            <h1 className="text-2xl font-bold text-gray-200 mb-6">クラブ検索</h1>
     <LocationPicker setCoordinates={setCoordinates} clubs={clubs} mode="search"/>
   </div>
   );

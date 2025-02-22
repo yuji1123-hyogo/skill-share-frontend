@@ -41,7 +41,13 @@ const EventList = ({ clubId }) => {
                 onChange={setActiveTab}
                 variant="minimal"
             />
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {sortedEvents.filter(event => event.status === activeTab).length === 0 && (
+                    <div className="text-center py-8">
+                        <p className="text-gray-400 italic">対象のイベントはありません</p>
+                    </div>
+                )}
                 {sortedEvents
                     .filter(event => event.status === activeTab)
                     .map(filteredEvent => (

@@ -10,7 +10,6 @@ const CommentContainer = ({ commentId }) => {
 
   if (isLoading) return <LoadingIndicator message="コメントを読み込んでいます..." />;
   if (error) return <ErrorMessage message="コメントの取得に失敗しました" />;
-  if (data?.comment.length === 0) return  <P>コメントはまだありません</P>
   console.log("コメント",data.comment)
 
   return (
