@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useGetClubEventsQuery } from "../../../features/RTKQuery/apiSlice";
 import Tabs from "../../molecules/TabSwitcher";
 import EventCardContainer from "./EventCardContainer";
+import LoadingIndicator from "../../atoms/loading/LoadingIndicator";
 
 
 
@@ -10,11 +11,7 @@ const EventList = ({ clubId }) => {
     const [activeTab, setActiveTab] = useState("upcoming");
 
     if (isLoading) return (
-        <div className="animate-pulse space-y-4">
-            {[1, 2, 3].map(i => (
-                <div key={i} className="h-40 bg-dark-accent rounded-lg"></div>
-            ))}
-        </div>
+        <LoadingIndicator message='イベント一覧を取得中'/>
     );
 
     if (error) return (
@@ -42,8 +39,8 @@ const EventList = ({ clubId }) => {
                 variant="minimal"
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {sortedEvents.filter(event => event.status === activeTab).length === 0 && (
+            <div className="grid grid-cols-1 gap-6">
+               {sortedEvents.filter(event => event.status === activeTab).length === 0 && (
                     <div className="text-center py-8">
                         <p className="text-gray-400 italic">対象のイベントはありません</p>
                     </div>
