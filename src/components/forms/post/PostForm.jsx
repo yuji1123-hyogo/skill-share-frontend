@@ -27,7 +27,7 @@ const PostForm = ({ clubId = null }) => {
 
 
   return (
-    <div className="bg-dark-secondary rounded-lg  border border-dark-accent shadow-lg p-6 space-y-4">
+    <div className="bg-dark-secondary rounded-lg  max-w-xl mx-auto border-dark-accent shadow-lg p-6 space-y-4">
       <p className="text-sm font-bold text-gray-200 mb-6">投稿を作成する</p>
       <form onSubmit={handleSubmit(handleAddPost)} className="space-y-4">
         {/* 画像アップローダー */}

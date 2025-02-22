@@ -38,7 +38,7 @@ function UserForm({setActiveTab}) {
                     image={image}
                     setImage={setImage}
                     className="mb-6"
-                    mode='profile'
+                    mode='post'
                 />
                 
                 <TagEditor

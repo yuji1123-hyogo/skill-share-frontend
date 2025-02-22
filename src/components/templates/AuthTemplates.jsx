@@ -8,7 +8,7 @@ const AuthTemplates = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-dark-primary py-12 px-4">
-      <div className="max-w-md w-full bg-dark-secondary rounded-xl shadow-xl p-8 border border-dark-accent">
+      <div className="max-w-md w-full p-8 ">
         <Tabs
           tabs={[
             { label: "ログイン", value: "login" },
@@ -18,7 +18,7 @@ const AuthTemplates = () => {
           onChange={setAuthMode}
           variant="minimal"
         />
-        <div className="mt-6">
+        <div >
           {authMode === "login" ? (
             <LoginForm />
           ) : (

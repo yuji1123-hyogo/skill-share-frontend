@@ -17,7 +17,7 @@ const Header = ({ isSidebarOpen, onToggleSidebar }) => {
           )}
         </button>
         
-        <Link to="/" className="ml-4 text-xl font-bold text-purple-500/50">
+        <Link to="/" className="ml-4 text-xl font-bold text-purple-500/50 drop-shadow-lg">
           SKILL-SHARE
         </Link>
       </div>

@@ -77,7 +77,7 @@ const ClubForm = ({ mode = "create", initialData = null}) => {
             <LocationPicker
               setCoordinates={setCoordinates}
               setClubAddress={setAddress}
-              clubAddress={address}
+              clubs={[initialData]}
               mode="create-or-edit"
             />
           </div>

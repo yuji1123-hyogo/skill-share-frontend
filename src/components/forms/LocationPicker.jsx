@@ -42,7 +42,7 @@ const DEFAULT_POSITION = {
  */
 const createClubIcon = (themeImage) => {
   return L.divIcon({
-    html: `<img src="${themeImage || "./logo192.png"}" class="bg-black rounded-full w-8 h-8 flex items-center justify-center font-bold">`,
+    html: `<img src="${themeImage || "./logo192.png"}" class="bg-black rounded-full w-8 h-8 object-cover flex items-center justify-center font-bold">`,
     className: 'custom-div-icon',
     iconSize: [32, 32],
     iconAnchor: [16, 16]
@@ -66,7 +66,8 @@ const MapClickHandler = ({ onPositionChange }) => {
  * 位置情報選択コンポーネント
  * 地図表示、位置選択、住所表示の機能を提供
  */
-const LocationPicker = ({ clubs = [], users = [],  setCoordinates = () => {},setClubAddress = () => {},mode = "search" }) => {
+const LocationPicker = ({ clubs = [], users = [], 
+   setCoordinates = () => {},setClubAddress = () => {},mode = "search" }) => {
   console.log(clubs)
   // 状態管理
   const [position, setPosition] = useState(DEFAULT_POSITION);  // 選択された位置
@@ -237,15 +238,15 @@ const LocationPicker = ({ clubs = [], users = [],  setCoordinates = () => {},set
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              保存完了
+              {mode === "create-or-edit" ? "保存完了" : "検索結果"}
             </span>
           ) : (
-            '位置情報を保存'
+            mode === "create-or-edit" ? "位置情報を保存" : "近くのクラブを検索" 
           )}
         </button>
 
       {/* 近くのクラブ一覧表示 */}
-      {clubsWithLocation.length > 0 && (
+      {mode === "search" && clubsWithLocation.length > 0 && (
         <div className={mapStyles.infoBox}>
           <h3 className="text-gray-200 font-medium mb-2">近くのクラブ</h3>
           <div className="space-y-2">

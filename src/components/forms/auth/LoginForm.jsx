@@ -39,22 +39,32 @@ const LoginForm = () => {
 
   return (
     <AuthFormLayout title="ログイン">
-      <form onSubmit={handleSubmit(onSubmitLogin)} className="mt-8 space-y-6">
+      <form onSubmit={handleSubmit(onSubmitLogin)} className="space-y-6">
         <div className="space-y-4">
-          <input
-            {...register("email")}
-            placeholder="メールアドレス"
+          <div className="form-group">
+            <label className="block text-sm font-medium text-gray-200 mb-1">
+              メールアドレス
+            </label>
+            <input
+              {...register("email")}
+              placeholder="メールアドレス"
             className="appearance-none relative block w-full px-3 py-2 border border-dark-accent placeholder-gray-500 text-gray-200 rounded-lg bg-dark-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          <FormErrorMessage error={clientErrors.email?.message} />
-
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="パスワード"
+            <FormErrorMessage error={clientErrors.email?.message} />
+          </div>
+          
+          <div className="form-group">
+            <label className="block text-sm font-medium text-gray-200 mb-1">
+              パスワード
+            </label>
+            <input
+              {...register("password")}
+              type="password"
+              placeholder="パスワード"
             className="appearance-none relative block w-full px-3 py-2 border border-dark-accent placeholder-gray-500 text-gray-200 rounded-lg bg-dark-primary focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-          <FormErrorMessage error={clientErrors.password?.message} />
+            />
+            <FormErrorMessage error={clientErrors.password?.message} />
+          </div>
         </div>
 
         <FormErrorMessage error={loginAPIError} />

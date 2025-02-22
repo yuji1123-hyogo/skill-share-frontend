@@ -72,7 +72,7 @@ const RegisterForm = ({ setAuthMode }) => {
 
   return (
     <AuthFormLayout title="新規登録">
-      <form onSubmit={handleSubmit(onSubmitRegister)} className="mt-8 space-y-6">
+      <form onSubmit={handleSubmit(onSubmitRegister)} className="mt-4 space-y-6">
         <div className="space-y-6">
           <div className="form-group">
             <label className="block text-sm font-medium text-gray-200 mb-1">
