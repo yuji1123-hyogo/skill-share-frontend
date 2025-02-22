@@ -16,8 +16,9 @@ const ClubCardActionButtons = ({ clubId, members }) => {
   const isParticipate = members.some((member) => member.id === currentUserId);
   const isHost = members[0]?.id === currentUserId;
 
-
-  console.log("再レンダリング in clubCardActionButtons")
+  console.log(currentUserId)
+  console.log(members)
+  console.log("再レンダリング in clubCardActionButtons",isParticipate,isHost)
   
   return (
     <div className="flex gap-4">

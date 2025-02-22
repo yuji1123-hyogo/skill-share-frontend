@@ -35,7 +35,7 @@ const ClubForm = ({ mode = "create", initialData = null}) => {
       )} className="space-y-6">
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="block text-gray-200 font-medium">クラブ名</label>
+            <label className="block text-gray-200 font-medium">クラブ名(必須)</label>
             <input
               {...register("name")}
               onChange={() => clearErrors("name")}
@@ -47,7 +47,7 @@ const ClubForm = ({ mode = "create", initialData = null}) => {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-gray-200 font-medium">説明</label>
+            <label className="block text-gray-200 font-medium">説明(任意)</label>
             <textarea
               {...register("description")}
               className="w-full px-4 py-2 bg-dark-primary border border-dark-accent rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[120px] resize-y"
@@ -65,7 +65,7 @@ const ClubForm = ({ mode = "create", initialData = null}) => {
           />
 
           <div className="mt-6">
-            <h3 className="text-gray-200 font-medium mb-2">タグ</h3>
+            <h3 className="text-gray-200 font-medium mb-2">タグ(任意)</h3>
             <TagEditor
               selectedTags={selectedTags}
               setSelectedTags={setSelectedTags}
@@ -73,11 +73,11 @@ const ClubForm = ({ mode = "create", initialData = null}) => {
           </div>
 
           <div className="mt-6">
-            <h3 className="text-gray-200 font-medium mb-2">主な活動場所</h3>
+            <h3 className="text-gray-200 font-medium mb-2">主な活動場所(必須)</h3>
             <LocationPicker
               setCoordinates={setCoordinates}
               setClubAddress={setAddress}
-              clubs={[initialData]}
+              clubs={initialData ? [initialData] : []}
               mode="create-or-edit"
             />
           </div>
