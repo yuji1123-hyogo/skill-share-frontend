@@ -12,21 +12,9 @@ export const apiClient = axios.create({
   withCredentials: true, 
 });
 
-
+console.log("hello")
   
-// 共通のエラーハンドリング関数
-/**
- * APIエラーを処理し、統一されたエラーメッセージを返す関数
- * @param {Object} error - APIリクエストで発生したエラーオブジェクト
- * @param {XMLHttpRequest} [error.request] - リクエストオブジェクト (存在しない場合もある)
- * @param {Object} [error.response] - レスポンスオブジェクト (存在しない場合もある)
- * @param {number} [error.response.status] - HTTPステータスコード (存在しない場合はデフォルト500)
- * @param {Object} [error.response.data] - サーバーからのレスポンスデータ
- * @param {string} [error.response.data.message] - エラーメッセージ
- * @param {Array} [error.response.data.errors] - 詳細なエラー情報 (配列)
- * @param {string} [error.message] - ネットワークエラーやタイムアウト時のエラーメッセージ
- * @returns {{status: number, message: string, errors: Array}} - 統一されたエラーレスポンスオブジェクト
- */
+
 const handleApiError = (error) => {
   console.log("error", error);
   if (error.request && !error.response) {
