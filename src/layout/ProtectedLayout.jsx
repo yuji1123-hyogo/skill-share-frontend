@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import { useSelector } from "react-redux";
 
 const ProtectedLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const userId = useSelector((state) => state.auth.userId);
+  if(!userId){
+    return  <Navigate to="/auth" replace />
+  }
 
   return (
     <div className="min-h-screen bg-dark-primary">

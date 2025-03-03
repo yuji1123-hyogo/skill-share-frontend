@@ -1,9 +1,7 @@
 import axios from 'axios';
-// APIのベースURLを環境変数から取得
 const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://localhost:5000/api';
 
 
-// Axios インスタンスを作成
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   headers: {
@@ -12,9 +10,9 @@ export const apiClient = axios.create({
   withCredentials: true, 
 });
 
-console.log("hello")
   
 
+//APIレイヤーの共通エラーハンドリング
 const handleApiError = (error) => {
   console.log("error", error);
   if (error.request && !error.response) {

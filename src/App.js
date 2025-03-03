@@ -3,24 +3,16 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 import AppRoutes from "./routes/AppRoutes";
 import { ToastContainer } from "react-toastify";
+import ErrorBoundaryFallback from "./components/atoms/errors/ErrorBoundaryFallback";
+import LoadingIndicator from "./components/atoms/loading/LoadingIndicator";
 
-//  エラーバウンダリのフォールバック UI
-const ErrorFallback = ({ error, resetErrorBoundary }) => (
-  <div>
-    <h2>エラーが発生しました</h2>
-    <p>{error.message}</p>
-    <button onClick={resetErrorBoundary}>リトライ</button>
-  </div>
-);
 
-// ローディングフォールバック UI
-const LoadingFallback = () => <p>ページを読み込み中...</p>;
 
 const App = () => {
   return (
         <BrowserRouter>
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Suspense fallback={<LoadingFallback />}>
+          <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
+            <Suspense fallback={<LoadingIndicator />}>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
