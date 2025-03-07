@@ -16,6 +16,7 @@ const UserActionButtons = ({ targetUserId }) => {
   const { isMyself, isFollow } = judgeUserRelation(targetUserId, currentUserId, followListData);
   const isProfilePage = location.pathname === `/profile/${targetUserId}`;
 
+  console.log(isMyself, isFollow);
   return (
     <div className="flex gap-3">
       {!isMyself && (
