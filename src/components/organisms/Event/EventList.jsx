@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useGetClubEventsQuery } from "../../../features/RTKQuery/apiSlice";
 import Tabs from "../../molecules/TabSwitcher";
-import EventCardContainer from "./EventCardContainer";
+import EventCard from "./EventCard";
 import LoadingIndicator from "../../atoms/loading/LoadingIndicator";
 import ErrorMessage from "../../atoms/errors/ErrorMessage";
 
@@ -46,7 +46,7 @@ const EventList = ({ clubId }) => {
                 {sortedEvents
                     .filter(event => event.status === activeTab)
                     .map(filteredEvent => (
-                        <EventCardContainer 
+                        <EventCard
                             key={filteredEvent.id} 
                             eventId={filteredEvent.id}
                         />
