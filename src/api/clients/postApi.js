@@ -1,14 +1,14 @@
 import { apiClient } from "../apiClient";
 
 /**
- * ✅ Populate されたユーザー情報（投稿の作者）
+ * Populate されたユーザー情報（投稿の作者）
  * @typedef {Object} PostAuthor
  * @property {string} username - ユーザー名
  * @property {string} [profilePicture] - プロフィール画像（省略可）
  */
 
 /**
- * ✅ 投稿オブジェクト
+ * 投稿オブジェクト
  * @typedef {Object} Post
  * @property {string} id - 投稿 ID
  * @property {string} content - 投稿内容
@@ -21,7 +21,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ 投稿を作成
+ * 投稿を作成
  * @param {Object} postData - 投稿のデータ
  * @param {string} postData.content - 投稿内容
  * @param {string} [postData.media] - メディアの URL（省略可）
@@ -34,7 +34,7 @@ export const createPostAPI = async (postData) => {
 };
 
 /**
- * ✅ 投稿の詳細を取得（`author` を populate）
+ * 投稿の詳細を取得（`author` を populate）
  * @param {string} postId - 投稿 ID
  * @returns {Promise<{ message: string, post: Post }>} - 投稿の詳細情報
  */
@@ -44,7 +44,7 @@ export const getPostDetailsAPI = async (postId) => {
 };
 
 /**
- * ✅ ユーザーの投稿一覧を取得
+ * ユーザーの投稿一覧を取得
  * @param {string} userId - ユーザー ID
  * @returns {Promise<{ message: string, postIdList: string[] }>} - ユーザーの投稿 ID 一覧
  */
@@ -54,7 +54,7 @@ export const getUserPostsAPI = async (userId) => {
 };
 
 /**
- * ✅ クラブの投稿一覧を取得
+ * クラブの投稿一覧を取得
  * @param {string} clubId - クラブ ID
  * @returns {Promise<{ message: string, postIdList: string[] }>} - クラブの投稿 ID 一覧
  */
@@ -64,7 +64,7 @@ export const getClubPostsAPI = async (clubId) => {
 };
 
 /**
- * ✅ ホームフィードの投稿一覧を取得
+ * ホームフィードの投稿一覧を取得
  * @returns {Promise<{ message: string, postIdList: string[] }>} - ホームフィードの投稿 ID 一覧
  */
 export const getHomePostsAPI = async () => {

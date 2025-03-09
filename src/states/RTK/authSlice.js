@@ -39,7 +39,7 @@ const authSlice = createSlice({
   reducers: {}, // ローカルな `reducer` はなし（すべて非同期処理）
   extraReducers: (builder) => {
     builder
-      // **🔹 ログイン処理**
+      // **ログイン処理**
       .addCase(loginAsync.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -53,7 +53,7 @@ const authSlice = createSlice({
         state.error = action.payload; // `error.message` を格納
       })
 
-      // **🔹 ログアウト処理**
+      // **ログアウト処理**
       .addCase(logoutAsync.pending, (state) => {
         state.loading = true;
         state.error = null;

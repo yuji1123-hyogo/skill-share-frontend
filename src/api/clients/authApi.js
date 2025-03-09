@@ -2,7 +2,7 @@ import { apiClient } from "../apiClient";
 
 
 /**
- * ✅ タグの型定義
+ * タグの型定義
  * @typedef {Object} Tag
  * @property {string} name - タグ名
  * @property {number} level - タグのレベル
@@ -11,7 +11,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ ユーザー情報の型定義
+ * ユーザー情報の型定義
  * @typedef {Object} User
  * @property {string} id - ユーザー ID
  * @property {string} username - ユーザー名
@@ -23,7 +23,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ ユーザー登録 API
+ * ユーザー登録 API
  * @param {Object} userData - 登録情報
  * @param {string} userData.username - ユーザー名
  * @param {string} userData.email - メールアドレス
@@ -36,7 +36,7 @@ export const registerUserAPI = async (userData) => {
 };
 
 /**
- * ✅ ログイン API
+ * ログイン API
  * @param {Object} credentials - 認証情報
  * @param {string} credentials.email - メールアドレス
  * @param {string} credentials.password - パスワード
@@ -48,7 +48,7 @@ export const loginUserAPI = async (credentials) => {
 };
 
 /**
- * ✅ ログアウト API
+ * ログアウト API
  * @returns {Promise<{ message: string }>} - ログアウト成功メッセージ
  */
 export const logoutUserAPI = async () => {
@@ -57,7 +57,7 @@ export const logoutUserAPI = async () => {
 };
 
 /**
- * ✅ メールアドレス存在チェック API
+ * メールアドレス存在チェック API
  * @param {string} email - 確認するメールアドレス
  * @returns {Promise<{ message: string, exists: boolean }>} - メールの存在確認結果
  */
@@ -67,7 +67,7 @@ export const checkEmailExistsAPI = async (email) => {
 };
 
 /**
- * ✅ ユーザー名存在チェック API
+ * ユーザー名存在チェック API
  * @param {string} username - 確認するユーザー名
  * @returns {Promise<{ message: string, exists: boolean }>} - ユーザー名の存在確認結果
  */

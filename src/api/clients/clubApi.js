@@ -1,7 +1,7 @@
 import { apiClient } from "../apiClient";
 
 /**
- * ✅ タグの型定義
+ * タグの型定義
  * @typedef {Object} Tag
  * @property {string} name - タグ名
  * @property {number} level - タグのレベル
@@ -10,7 +10,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ Populate されたユーザー情報（クラブメンバー）
+ * Populate されたユーザー情報（クラブメンバー）
  * @typedef {Object} ClubMember
  * @property {string} id - ユーザー ID
  * @property {string} username - ユーザー名
@@ -18,7 +18,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ Populate されたクラブオブジェクト（詳細情報取得時に適用）
+ * Populate されたクラブオブジェクト（詳細情報取得時に適用）
  * @typedef {Object} ClubWithMembers
  * @property {string} id - クラブの ID
  * @property {string} name - クラブ名
@@ -31,7 +31,7 @@ import { apiClient } from "../apiClient";
 
 
 /**
- * ✅ クラブを作成
+ * クラブを作成
  * @param {Object} clubData - クラブのデータ
  * @param {string} clubData.name - クラブ名
  * @param {string} [clubData.description] - クラブの説明（省略可）
@@ -46,7 +46,7 @@ export const createClubAPI = async (clubData) => {
 };
 
 /**
- * ✅ クラブの詳細を取得（メンバー情報を populate）
+ * クラブの詳細を取得（メンバー情報を populate）
  * @param {string} clubId - クラブ ID
  * @returns {Promise<{ message: string, club: ClubWithMembers }>} - クラブの詳細情報
  */
@@ -56,7 +56,7 @@ export const getClubDetailAPI = async (clubId) => {
 };
 
 /**
- * ✅ クラブに参加（メンバー情報を populate）
+ * クラブに参加（メンバー情報を populate）
  * @param {string} clubId - クラブ ID
  * @returns {Promise<{ message: string, club: ClubWithMembers ,userId:userId}>} - 参加後のクラブ情報
  */
@@ -67,7 +67,7 @@ export const joinClubAPI = async (clubId) => {
 
 
 /**
- * ✅ クラブ情報を更新（メンバー情報を populate）
+ * クラブ情報を更新（メンバー情報を populate）
  * @param {string} clubId - クラブ ID
  * @param {Object} updateData - 更新するデータ
  * @param {string} [updateData.name] - クラブ名（変更する場合）
@@ -83,7 +83,7 @@ export const updateClubAPI = async (clubId, updateData) => {
 
 
 /**
- * ✅ クラブのメンバー一覧（ID のみ）を取得
+ * クラブのメンバー一覧（ID のみ）を取得
  * @param {string} clubId - クラブ ID
  * @returns {Promise<{ message: string, memberIdList: string[] }>} - クラブのメンバー ID 一覧
  */

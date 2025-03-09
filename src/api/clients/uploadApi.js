@@ -1,14 +1,14 @@
 import { apiClient } from "../apiClient";
 
 /**
- * ✅ 画像アップロードのレスポンス型
+ * 画像アップロードのレスポンス型
  * @typedef {Object} UploadImageResponse
  * @property {string} message - アップロード成功メッセージ
  * @property {string} imageUrl - アップロードされた画像の URL
  */
 
 /**
- * ✅ Cloudinary へ画像をアップロード
+ * Cloudinary へ画像をアップロード
  * @param {File} file - アップロードする画像ファイル
  * @returns {Promise<UploadImageResponse>} - アップロード結果
  */

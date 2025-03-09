@@ -27,61 +27,61 @@ export const apiSlice = createApi({
   tagTypes: ["MyFollowList","User", "MyClubList", "Club", "EventList", "Event", "HomePostList", "ProfilePostList", "ClubPostList", "Post", "CommentList", "Comment", "CommentList_Post", "CommentList_Article", "CommentList_Feedback", "EventArticles", "SharedArticle", "EventFeedbacks", "Feedback"],
   endpoints: (builder) => ({
     
-    // 🔹 クラブ関連
-    // 🔹 クラブの作成
+    // クラブ関連
+    // クラブの作成
     createClub: builder.mutation({
       queryFn: (club) => formatQueryFnResponse(() => createClubAPI(club)), 
       invalidatesTags:(result, error) => [{ type: "User",id:result.userId},{type:"MyClubList"}]
     }), 
-    // 🔹 ユーザーが参加しているクラブ一覧
+    // ユーザーが参加しているクラブ一覧
     getUserClubs: builder.query({
       queryFn: () => formatQueryFnResponse(getUserClubsAPI),
         providesTags: [{type:"MyClubList"}],
     }),
-    // 🔹 クラブの詳細を取得
+    // クラブの詳細を取得
     getClubDetail: builder.query({
       queryFn: (clubId) => formatQueryFnResponse(() => getClubDetailAPI(clubId)), 
       providesTags: (result, error, clubId) => [{ type: "Club", id: clubId }],
     }),
-    // 🔹 クラブに参加
+    // クラブに参加
     joinClub: builder.mutation({
       queryFn: ( clubId ) => formatQueryFnResponse(() => joinClubAPI(clubId)), 
       invalidatesTags: (result, error, clubId) => [{ type: "Club", id: clubId },{ type: "User",id:result?.data?.userId},{type:"MyClubList"}]
     }),
-    // 🔹 クラブの更新
+    // クラブの更新
     updateClub: builder.mutation({
       queryFn: ({clubId,updateData}) => formatQueryFnResponse(() => updateClubAPI(clubId,updateData)), 
       invalidatesTags: (result, error,{ clubId}) => [{ type: "Club", id: clubId }],
     }),
-    // 🔹 クラブのメンバー一覧を取得
+    // クラブのメンバー一覧を取得
     getClubMembers: builder.query({
       queryFn: (clubId) => formatQueryFnResponse(() => getClubMembersAPI(queryArg)), 
       providesTags: (result, error, clubId) => [{ type: "Club", id: clubId }],
     }),
-    // 🔹 クラブのイベント一覧を取得
+    // クラブのイベント一覧を取得
     getClubEvents: builder.query({
       queryFn: (clubId ) => formatQueryFnResponse(() => getClubEventsAPI(clubId)), 
       providesTags: (result, error, clubId) => [{ type: "EventList", id: clubId }],
     }),
 
 
-    // 🔹 イベント関連
-    // 🔹 イベントの詳細を取得
+    // イベント関連
+    // イベントの詳細を取得
     getEventDetail: builder.query({
       queryFn: (eventId) => formatQueryFnResponse(() => getEventByIdAPI(eventId)), 
       providesTags: (result, error, eventId) => [{ type: "Event", id: eventId }],
     }),
-    // 🔹 イベントを作成
+    // イベントを作成
     createEvent: builder.mutation({
       queryFn: (event) => formatQueryFnResponse(() => createEventAPI(event)), 
       invalidatesTags: (result, error, event) => [{ type: "EventList", id: event.club }],
     }),
-    // 🔹 イベントに参加
+    // イベントに参加
     participateInEvent: builder.mutation({
       queryFn: (eventId) => formatQueryFnResponse(() => participateInEventAPI(eventId)), 
       invalidatesTags: (result, error, eventId) => [{ type: "Event", id: eventId }],
     }),
-    // 🔹 イベントのステータスを更新
+    // イベントのステータスを更新
     updateEventStatus: builder.mutation({
       queryFn: (eventId) => formatQueryFnResponse(() => updateEventStatusAPI(eventId)), 
       invalidatesTags: (result, error, eventId) => [
@@ -89,12 +89,12 @@ export const apiSlice = createApi({
         { type: "EventList", id: result.event.club }
       ],
     }),
-    // 🔹 MVP の決定
+    // MVP の決定
     determineMVP: builder.mutation({
       queryFn: (eventId) => formatQueryFnResponse(() => determineMVPAPI(eventId)), 
       invalidatesTags: (result, error, eventId) => [{ type: "Event", id: eventId }],
     }),
-    // 🔹 MVP 投票
+    // MVP 投票
     voteForMVP: builder.mutation({
       queryFn: ({ eventId,candidateId }) => formatQueryFnResponse(() => voteForMVPAPI({eventId,candidateId})), 
       invalidatesTags: (result, error,{ eventId}) =>
@@ -104,7 +104,7 @@ export const apiSlice = createApi({
          }
     }),
 
-      // 🔹 経験値の分配
+      // 経験値の分配
       distributeExp: builder.mutation({
         queryFn: (eventId) => formatQueryFnResponse(() => distributeExpAPI(eventId)), 
       
@@ -130,7 +130,7 @@ export const apiSlice = createApi({
 
 
 
-    // 🔹 ポスト
+    // ポスト
     createPost: builder.mutation({
       queryFn: (postData) => formatQueryFnResponse(() => createPostAPI(postData)), 
       invalidatesTags: (result, error, { club :clubId}) => {
@@ -171,29 +171,29 @@ export const apiSlice = createApi({
     }),
 
 
-    // 🔹 ユーザー関連
-    // 🔹 特定ユーザーの公開情報を取得
+    // ユーザー関連
+    // 特定ユーザーの公開情報を取得
     getPublicUser: builder.query({
       queryFn: (targetUserId) => formatQueryFnResponse(() => getPublicUserAPI(targetUserId)), 
       providesTags: (result, error,targetUserId) => [{ type: "User", id: targetUserId }],
     }),
-    // 🔹 フォロー / フォロー解除
+    // フォロー / フォロー解除
     toggleFollowUser: builder.mutation({
       queryFn: (targetUserId) => formatQueryFnResponse(() => toggleFollowUserAPI(targetUserId)), 
       invalidatesTags: (result, error) => [{type:"MyFollowList"},{type:"User",id:result.user.id}], 
     }),
-    // 🔹 ユーザー情報の更新
+    // ユーザー情報の更新
     updateUser: builder.mutation({
       queryFn: (updateUser) => formatQueryFnResponse(() => updateUserAPI(updateUser)), 
       invalidatesTags: (result, error) => [{ type: "User", id: result.user.id }],
     }),
-    // 🔹 フォローリスト取得
+    // フォローリスト取得
     getFollowList: builder.query({
       queryFn: () => formatQueryFnResponse(getFollowListAPI),
       providesTags: [{type:"MyFollowList"}],
     }),
 
-    // 🔹 技術記事共有関連
+    // 技術記事共有関連
     createSharedArticle: builder.mutation({
       queryFn: ({ eventId, articleData }) => 
         formatQueryFnResponse(() => createSharedArticleAPI(eventId, articleData)),
@@ -218,7 +218,7 @@ export const apiSlice = createApi({
       ],
     }),
 
-    // 🔹 フィードバック関連
+    // フィードバック関連
     createFeedback: builder.mutation({
       queryFn: ({ eventId, feedbackData }) => 
         formatQueryFnResponse(() => createFeedbackAPI(eventId, feedbackData)),

@@ -2,7 +2,7 @@ import { apiClient } from "../apiClient";
 
 
 /**
- * ✅ タグの型定義
+ * タグの型定義
  * @typedef {Object} Tag
  * @property {string} name - タグ名
  * @property {number} level - タグのレベル
@@ -11,7 +11,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ ユーザー情報の型定義
+ * ユーザー情報の型定義
  * @typedef {Object} User
  * @property {string} id - ユーザー ID
  * @property {string} username - ユーザー名
@@ -21,7 +21,7 @@ import { apiClient } from "../apiClient";
  * @property {string[]} following - フォローしているユーザーの ID リスト
  * @property {Tag[]} tags - ユーザーのタグ情報
 /**
- * ✅ 自分のユーザー情報を取得
+ * 自分のユーザー情報を取得
  * @returns {Promise<{ message: string, user: User }>} - ユーザーの詳細情報
  */
 export const getUserDetailsAPI = async () => {
@@ -30,7 +30,7 @@ export const getUserDetailsAPI = async () => {
 };
 
 /**
- * ✅ 特定のユーザー情報を取得（公開情報）
+ * 特定のユーザー情報を取得（公開情報）
  * @param {string} userId - 取得するユーザーの ID
  * @returns {Promise<{ message: string, user: User }>} - 指定ユーザーの詳細情報
  */
@@ -41,7 +41,7 @@ export const getPublicUserAPI = async (userId) => {
 };
 
 /**
- * ✅ ユーザーのフォロー / フォロー解除
+ * ユーザーのフォロー / フォロー解除
  * @param {string} userId - フォロー / フォロー解除するユーザーの ID
  * @returns {Promise<{ message: string, user: User }>} - 更新後のユーザー情報
  */
@@ -51,7 +51,7 @@ export const toggleFollowUserAPI = async (userId) => {
 };
 
 /**
- * ✅ ユーザーが参加しているクラブID一覧を取得
+ * ユーザーが参加しているクラブID一覧を取得
  * @returns {Promise<{ message: string, clubIds: string[] }>} - クラブの ID リスト
  */
 export const getUserClubsAPI = async () => {
@@ -61,7 +61,7 @@ export const getUserClubsAPI = async () => {
 };
 
 /**
- * ✅ ユーザー情報を更新
+ * ユーザー情報を更新
  * @param {Object} updateData - 更新するデータ
  * @param {string} [updateData.username] - 新しいユーザー名（省略可）
  * @param {string} [updateData.profilePicture] - 新しいプロフィール画像（省略可）
@@ -82,7 +82,7 @@ export const searchUsersAPI = async (params) => {
 };
 
 /**
- * ✅ フォローIDリスト取得 API
+ * フォローIDリスト取得 API
  * @typedef {Object} FollowListResponse
  * @property {string} message - API のレスポンスメッセージ
  * @property {string[]} following - フォローしているユーザーの ID リスト

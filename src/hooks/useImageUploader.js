@@ -3,17 +3,17 @@ import { uploadImageAPI } from "../api/clients/uploadApi";
 
 export const useImageUploaderState = ({ image = null, setImage }) => {
   const fileInputRef = useRef(null);
-  const [isImageLoading, setIsImageLoading] = useState(false); // ✅ ローディング状態
-  const [imageError, setImageError] = useState(null); // ✅ エラー状態
+  const [isImageLoading, setIsImageLoading] = useState(false); // ローディング状態
+  const [imageError, setImageError] = useState(null); // エラー状態
 
-  // ✅ 画像選択処理
+  // 画像選択処理
   const handleImageClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // ✅ 画像アップロード処理
+  // 画像アップロード処理
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -37,7 +37,7 @@ export const useImageUploaderState = ({ image = null, setImage }) => {
     fileInputRef,
     handleImageClick,
     handleFileChange,
-    isImageLoading, // ✅ ローディング状態を返す
-    imageError, // ✅ エラー状態を返す
+    isImageLoading, // ローディング状態を返す
+    imageError, // エラー状態を返す
   };
 };

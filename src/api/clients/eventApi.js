@@ -1,7 +1,7 @@
 import { apiClient } from "../apiClient";
 
 /**
- * ✅ Populate されたユーザー情報（イベント関係者）
+ * Populate されたユーザー情報（イベント関係者）
  * @typedef {Object} UserBasicInfo
  * @property {string} id - ユーザー ID
  * @property {string} username - ユーザー名
@@ -9,7 +9,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ イベントオブジェクト（基本情報）
+ * イベントオブジェクト（基本情報）
  * @typedef {Object} Event
  * @property {string} id - イベント ID
  * @property {string} name - イベント名
@@ -25,7 +25,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ Populate されたイベントオブジェクト（詳細情報）
+ * Populate されたイベントオブジェクト（詳細情報）
  * @typedef {Object} EventWithDetails
  * @property {string} id - イベント ID
  * @property {string} name - イベント名
@@ -42,7 +42,7 @@ import { apiClient } from "../apiClient";
  */
 
 /**
- * ✅ イベントを作成
+ * イベントを作成
  * @param {Object} eventData - イベントデータ
  * @param {string} eventData.name - イベント名
  * @param {string} [eventData.description] - イベントの説明（省略可）
@@ -58,7 +58,7 @@ export const createEventAPI = async (eventData) => {
 };
 
 /**
- * ✅ イベントの詳細を取得（Populate 済み）
+ * イベントの詳細を取得（Populate 済み）
  * @param {string} eventId - イベント ID
  * @returns {Promise<{ message: string, event: EventWithDetails }>}
  */
@@ -68,7 +68,7 @@ export const getEventByIdAPI = async (eventId) => {
 };
 
 /**
- * ✅ イベントに参加
+ * イベントに参加
  * @param {string} eventId - イベント ID
  * @returns {Promise<{ message: string, event: EventWithDetails }>}
  */
@@ -78,7 +78,7 @@ export const participateInEventAPI = async (eventId) => {
 };
 
 /**
- * ✅ イベントのステータスを更新
+ * イベントのステータスを更新
  * @param {string} eventId - イベント ID
  * @returns {Promise<{ message: string, event: EventWithDetails }>}
  */
@@ -88,7 +88,7 @@ export const updateEventStatusAPI = async (eventId) => {
 };
 
 /**
- * ✅ MVP 投票
+ * MVP 投票
  * @param {string} eventId - イベント ID
  * @param {string} candidateId - MVP 候補のユーザー ID
  * @returns {Promise<{ message: string, event: EventWithDetails }>}
@@ -99,7 +99,7 @@ export const voteForMVPAPI = async ({eventId, candidateId}) => {
 };
 
 /**
- * ✅ MVP を確定
+ * MVP を確定
  * @param {string} eventId - イベント ID
  * @returns {Promise<{ message: string, event: EventWithDetails }>}
  */
@@ -109,7 +109,7 @@ export const determineMVPAPI = async (eventId) => {
 };
 
 /**
- * ✅ 経験値を分配
+ * 経験値を分配
  * @param {string} eventId - イベント ID
  * @returns {Promise<{ message: string, updatedUsers: string[], updatedClub?: string }>}
  */

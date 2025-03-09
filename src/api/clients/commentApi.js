@@ -35,7 +35,7 @@ export const COMMENT_TARGET_TYPES = {
 Object.freeze(COMMENT_TARGET_TYPES);
 
 /**
- * ✅ コメントを作成
+ * コメントを作成
  * @param {string} targetType - ターゲットタイプ ('post'|'article'|'feedback')
  * @param {string} targetId - ターゲットID
  * @param {string} content - コメント内容
@@ -50,7 +50,7 @@ export const createCommentAPI = async (targetType, targetId, content) => {
 };
 
 /**
- * ✅ コメント一覧を取得
+ * コメント一覧を取得
  * @param {string} targetType - ターゲットタイプ ('post'|'article'|'feedback')
  * @param {string} targetId - ターゲットID
  * @param {Object} options - オプション
@@ -68,7 +68,7 @@ export const getCommentsByTargetAPI = async (targetType, targetId, options = {})
 };
 
 /**
- * ✅ コメント詳細を取得
+ * コメント詳細を取得
  * @param {string} commentId - コメント ID
  * @returns {Promise<{ message: string, comment: Comment }>}
  */
