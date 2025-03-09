@@ -1,6 +1,6 @@
 import React from "react";
-import TagList from "../../molecules/TagList";
-import ClubCardActionButtons from "./ClubCardActionButtons";
+import TagList from "../../../molecules/TagList";
+import ClubCardActionButtons from "./ClubCardActions/ClubCardActionButtons";
 import { useGetClubDetailQuery } from "../../../features/RTKQuery/apiSlice";
 
 

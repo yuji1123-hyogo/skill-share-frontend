@@ -1,10 +1,11 @@
 import React from 'react'
 
 const UserCardPresentation = ({ userData,targetUserId }) => {
+
+
     const totalTagExperience = userData.user.tags.reduce(
         (sum, tag) => sum + (tag.level - 1) * 150 + tag.currentExperience, 0
       );
-
 
   return (
         <div className="bg-dark-secondary rounded-xl shadow-lg p-6 space-y-4 border border-dark-accent">

@@ -1,15 +1,10 @@
 import React from "react";
-import { useClubActions } from "../../../hooks/club/useClubActions";
+import { useClubActions } from "../../../../../hooks/club/useClubActions";
 import { useSelector } from "react-redux";
 
 
 
 
-/**
- * ✅ クラブのアクションボタンコンポーネント
- * @param {string} clubId - クラブID
- * @param {Array} members - クラブメンバーリスト
- */
 const ClubCardActionButtons = ({ clubId, members }) => {
   const { handleNavigateToClubDetail, handleJoinClub } = useClubActions(clubId);
   const currentUserId = useSelector((state) => state.auth.userId);

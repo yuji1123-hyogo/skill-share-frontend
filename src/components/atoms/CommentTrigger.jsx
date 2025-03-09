@@ -1,5 +1,8 @@
 import React from 'react'
 
+
+//***************cursor作****************** */
+
 function CommentTrigger({ commentCount = 0, isCommentOpen, setIsCommentOpen }) {
   return (
     <div className="mt-4 pt-4 border-t border-dark-accent">

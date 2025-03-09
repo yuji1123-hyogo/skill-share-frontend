@@ -9,7 +9,7 @@ export const useClubFormState = ({ initialData = null }) => {
   const [coordinates, setCoordinates] = useState(initialData?.location?.coordinates || null);
   const [address, setAddress] = useState(initialData?.location?.address || null);
 
-  // ✅ `react-hook-form` の設定
+  // `react-hook-form` の設定
   const { 
     register, 
     handleSubmit, 
@@ -26,7 +26,7 @@ export const useClubFormState = ({ initialData = null }) => {
 
   return {
     register,
-    handleSubmit,  // ✅ `useClubMutation` で使用
+    handleSubmit,  //  `useClubMutation` で使用
     setError,
     clearErrors,
     errors,

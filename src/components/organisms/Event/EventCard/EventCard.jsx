@@ -8,7 +8,8 @@ import LoadingIndicator from "../../../atoms/loading/LoadingIndicator";
 import ErrorMessage from "../../../atoms/errors/ErrorMessage";
 import EventBaseInfo from "../EventBaseInfo";
 
-// 合成コンポーネントではなく、単一のコンポーネントとして実装
+
+
 const EventCard = ({ eventId }) => {
   console.log("EventCard rendered with eventId:", eventId);
   return (

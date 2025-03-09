@@ -3,7 +3,7 @@ import { useGetClubEventsQuery } from "../../../features/RTKQuery/apiSlice";
 import Tabs from "../../molecules/TabSwitcher";
 import EventCardContainer from "./EventCardContainer";
 import LoadingIndicator from "../../atoms/loading/LoadingIndicator";
-
+import ErrorMessage from "../../atoms/errors/ErrorMessage";
 
 
 const EventList = ({ clubId }) => {
@@ -15,9 +15,7 @@ const EventList = ({ clubId }) => {
     );
 
     if (error) return (
-        <div className="text-red-500 bg-red-500/10 p-4 rounded-lg">
-            イベント一覧を取得できませんでした。
-        </div>
+        <ErrorMessage message="イベント一覧の取得に失敗しました" />
     );
 
     // updatedAtで並び替え

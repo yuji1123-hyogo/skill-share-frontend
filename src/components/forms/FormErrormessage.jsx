@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
 
+
+
+
+//***************cursor作****************** */
 /**
  * フォームのエラーメッセージを表示するコンポーネント
  * @param {Object} props

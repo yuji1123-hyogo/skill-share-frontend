@@ -1,5 +1,8 @@
 import React from "react";
 
+
+//***************UIはcursor作****************** */
+
 const TabSwitcher = ({ tabs, activeTab, onChange, variant = "default" }) => {
   const variants = {
     default: {

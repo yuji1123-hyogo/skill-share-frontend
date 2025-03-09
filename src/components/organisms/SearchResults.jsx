@@ -1,6 +1,6 @@
 import React from "react";
 import UserCard from "./User/UserCard";
-import ClubCard from "./Club/ClubCard";
+import ClubCard from "./Club/ClubCard/ClubCard";
 import { useTagSort } from "../../hooks/tag/useTagSort";
 import TagSortForSearch from "../molecules/TagSortForSearch";
 import LocationPicker from "../forms/LocationPicker";

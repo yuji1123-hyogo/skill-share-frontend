@@ -5,8 +5,10 @@ import ClubBord from "../organisms/Club/ClubBord";
 import ClubMenberList from "../organisms/Club/ClubMemberList";
 import ClubForm from "../forms/club/ClubForm";
 import EventManagement from "../organisms/Event/EventManagement";
-import ClubCard from "../organisms/Club/ClubCard";
+import ClubCard from "../organisms/Club/ClubCard/ClubCard";
+import PostFeed from "../organisms/Post/PostFeed";
 
+//UIロジック + ページのメイン部分全体のレイアウト
 
 const ClubDetailTemplate = ({ clubDetail }) => {
   const [activeTab, setActiveTab] = useState("posts");
@@ -32,7 +34,12 @@ const ClubDetailTemplate = ({ clubDetail }) => {
           variant="pills"
         />
         <div className="mt-6">
-          {activeTab === "posts" && <ClubBord clubId={clubDetail.id} />}
+          {activeTab === "posts" && 
+              <div className="space-y-8">
+                <PostForm clubId={clubDetail.id} />
+                <PostFeed postIdList={clubDetail.posts} />
+              </div>
+            }
           {activeTab === "members" && <ClubMenberList members={clubDetail.members} />}
           {activeTab === "events" && <EventManagement clubId={clubDetail.id} />}
           {activeTab === "info" && <ClubCard clubId={clubDetail.id} />}

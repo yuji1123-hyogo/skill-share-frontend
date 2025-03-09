@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ClubCard from "./ClubCard";
+import ClubCard from "./ClubCard/ClubCard";
 import Pagination from "../../molecules/Pagination";
 import { useGetUserClubsQuery } from "../../../features/RTKQuery/apiSlice";
 import LoadingIndicator from "../../atoms/loading/LoadingIndicator";

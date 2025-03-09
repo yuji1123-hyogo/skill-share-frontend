@@ -9,17 +9,14 @@ import LoadingIndicator from "../components/atoms/loading/LoadingIndicator";
 
 const ProfilePage = () => {
   const { userId: targetUserId } = useParams(); // URL から対象ユーザーIDを取得
-
-  // ✅ プロフィール対象ユーザーの投稿一覧を取得
-  const { data, error, isLoading} = useGetUserPostsQuery(targetUserId);
+  const { data, error, isLoading} = useGetPublicUserQuery(targetUserId);
 
   if (isLoading) return <LoadingIndicator message="プロフィールをを読み込んでいます..." />;
   if (error) return <p>エラーが発生しました: {error.message} </p>;
 
   return (
     <ProfileTemplate
-      targetUserId={targetUserId}
-      posts={data.posts || []} 
+      targetUser={data.targetUser} 
     />
   );
 };

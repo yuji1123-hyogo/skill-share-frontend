@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import TagList from '../molecules/TagList';
 
 
+
+//***************cursor作****************** */
+
 /**
  * Leafletのデフォルトアイコン設定の修正
  * デフォルトアイコンのパスを明示的に指定し、アイコンが表示されない問題を解決

@@ -3,7 +3,7 @@ import { useFeedbackForm } from "../../../hooks/feedback/useFeedbackForm";
 import ErrorMessage from "../../atoms/errors/ErrorMessage";
 import ImageUploader from "../ImageUploader";
 
-const FeedbackForm = ({ eventId, onSuccess }) => {
+const FeedbackForm = ({ eventId, onSuccess = () => {} }) => {
   const [createFeedback, { isLoading }] = useCreateFeedbackMutation();
   
   const {
@@ -32,8 +32,8 @@ const FeedbackForm = ({ eventId, onSuccess }) => {
       }).unwrap();
 
       resetForm();
-      onSuccess?.();
-      
+      toast.success("フィードバックを送信しました");
+        
     } catch (error) {
       setSubmitError(error.message || "フィードバックの送信に失敗しました");
     }

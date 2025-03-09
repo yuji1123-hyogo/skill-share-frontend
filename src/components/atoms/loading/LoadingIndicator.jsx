@@ -1,5 +1,8 @@
 import React from "react";
 
+
+//***************cursor作****************** */
+
 const LoadingIndicator = ({ message = "読み込み中...", variant = "default" }) => {
   const variants = {
     default: (

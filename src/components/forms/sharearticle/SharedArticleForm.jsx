@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useSharedArticleForm } from "../../../hooks/sharearticle/useSharedArticleForm";
 import { useCreateSharedArticleMutation } from "../../../features/RTKQuery/apiSlice";
-
+import { toast } from "react-toastify"; 
 import ErrorMessage from "../../atoms/errors/ErrorMessage";
 import TagEditor from "../TagEditor";
 
-const SharedArticleForm = ({ eventId, onSuccess }) => {
+const SharedArticleForm = ({ eventId, onSuccess = () => {} }) => {
   const [createArticle] = useCreateSharedArticleMutation();
   const [tags, setTags] = useState([]);
   const [error, setError] = useState(null);
@@ -25,7 +25,7 @@ const SharedArticleForm = ({ eventId, onSuccess }) => {
       
       reset();
       setTags([]);
-      onSuccess?.();
+      toast.success("記事を共有しました");
     } catch (err) {
       setError(err.message || "記事の共有に失敗しました");
     }

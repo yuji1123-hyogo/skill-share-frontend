@@ -13,7 +13,8 @@ function FeedBacckTemplates({event,canCreateFeedback,feedbacks}) {
     <div className="container mx-auto px-4 py-8">
     <EventBaseInfo event={event} />
     
-    <div className="mt-8">        
+    <div className="mt-8">
+    <h3 className="text-xl font-semibold mb-4 text-white">フィードバック一覧</h3>        
       {canCreateFeedback ? (
         <div className="mb-8">
           <FeedbackForm
@@ -27,8 +28,7 @@ function FeedBacckTemplates({event,canCreateFeedback,feedbacks}) {
       )}
 
       <div className="mt-8">
-        <h3 className="text-xl font-semibold mb-4 text-white">フィードバック一覧</h3>
-        {feedbacks?.length > 0 ? (
+            {feedbacks?.length > 0 ? (
                 <div className="space-y-6">
                     {feedbacks.map(feedback => (
                     <FeedbackCard key={feedback.id} feedback={feedback} />

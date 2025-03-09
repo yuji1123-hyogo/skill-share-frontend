@@ -1,7 +1,7 @@
 export const formatQueryFnResponse = async (apiCall) => {
 
   try {
-    const data = await apiCall(); // ✅ `apiCall` は関数として実行される
+    const data = await apiCall(); 
     return { data };
   } catch (error) {
     console.error("error in queryFn", error);

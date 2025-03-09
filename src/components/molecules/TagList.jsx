@@ -1,6 +1,10 @@
 import LeveledTag from "../atoms/LeveledTag";
 import StringOnlyTag from "../atoms/StringOnlyTag";
 
+
+
+//***************UIはcursor作****************** */
+
 const TagList = ({ tags, variant = "default", onClick, activeTag }) => {
   const variants = {
     default: {
