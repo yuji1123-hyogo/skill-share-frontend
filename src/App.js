@@ -12,7 +12,7 @@ const App = () => {
   return (
         <BrowserRouter>
           <ErrorBoundary FallbackComponent={ErrorBoundaryFallback}>
-            <Suspense fallback={<LoadingIndicator />}>
+            <Suspense fallback={<LoadingIndicator/>}>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
